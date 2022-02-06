@@ -28,7 +28,6 @@
                 "linuxraspbian",
                 "linuxaarch64bionic",
                 "windowsx86-64",
-                "windowsx86",
                 "linuxx86-64",
                 "osxx86-64"
             ]

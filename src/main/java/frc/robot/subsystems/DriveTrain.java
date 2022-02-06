@@ -15,13 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -37,15 +31,16 @@ public class DriveTrain extends SubsystemBase{
   private static DriveTrain m_instance;
 
   private final CANSparkMax m_frontLeft, m_middleLeft, m_backLeft, m_frontRight, m_middleRight, m_backRight;
-  private CANEncoder m_leftEncoder, m_rightEncoder;
-  private CANPIDController m_leftController, m_rightController;
+  //private CANEncoder m_leftEncoder, m_rightEncoder;
+  //private CANPIDController m_leftController, m_rightController;
 
   private DifferentialDrive m_drive;
 
-  private final DifferentialDriveOdometry m_odometry;
+  //private final DifferentialDriveOdometry m_odometry;
+
   public AHRS m_gyro;
 
-  public PIDController m_turnController;
+  //public PIDController m_turnController;
 
   private double straightAngle; 
   private boolean straightAngleSet;
@@ -54,7 +49,7 @@ public class DriveTrain extends SubsystemBase{
 
   private double grandKP;
 
-  public final DifferentialDriveKinematics kDriveKinematics;
+  //public final DifferentialDriveKinematics kDriveKinematics;
   // private Compressor m_comp;
 
   public static DriveTrain getInstance(){
@@ -101,37 +96,39 @@ public class DriveTrain extends SubsystemBase{
     m_frontRight.follow(m_backRight);
     m_middleRight.follow(m_backRight);
 
-    m_leftEncoder = m_backLeft.getEncoder();
-    m_rightEncoder = m_backRight.getEncoder();
+    //m_leftEncoder = m_backLeft.getEncoder();
+    //m_rightEncoder = m_backRight.getEncoder();
 
     // m_leftEncoder.setPositionConversionFactor(factor);
 
     // important
     // m_leftEncoder.setVelocityConversionFactor(factor);
 
-    m_leftController = m_backLeft.getPIDController();
-    m_rightController = m_backRight.getPIDController();
+    //m_leftController = m_backLeft.getPIDController();
+    //m_rightController = m_backRight.getPIDController();
 
     m_drive = new DifferentialDrive(m_backLeft, m_backRight);
 
     m_gyro = new AHRS(Port.kMXP);
- 
+    
+    /*
     m_turnController = new PIDController(AutoConstants.TURN_KP, AutoConstants.TURN_KI, AutoConstants.TURN_KD);
     m_turnController.enableContinuousInput(AutoConstants.MIN_INPUT, AutoConstants.MAX_INPUT);
     m_turnController.setIntegratorRange(AutoConstants.MIN_INGL, AutoConstants.MAX_INGL);
     m_turnController.setTolerance(AutoConstants.TOLERANCE);
     m_turnController.setSetpoint(0);
+    */
 
-    SmartDashboard.putData("Turn Controller", m_turnController);
+    //SmartDashboard.putData("Turn Controller", m_turnController);
 
     straightAngle = 0.0;
     straightAngleSet = false;
 
     m_timer = new Timer();
 
-    kDriveKinematics = new DifferentialDriveKinematics(AutoConstants.kTRACKWIDTH);
+    //kDriveKinematics = new DifferentialDriveKinematics(AutoConstants.kTRACKWIDTH);
 
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+    //m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
 
     // SmartDashboard.putNumber("TURN_KP", AutoConstants.TURN_KP);
     //SmartDashboard.putNumber("kS", AutoConstants.kS);
@@ -268,9 +265,12 @@ public class DriveTrain extends SubsystemBase{
    *
    * @return The current wheel speeds.
    */
+
+   /*
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(m_leftEncoder.getVelocity(), m_rightEncoder.getVelocity());
   }
+  */
 
   /**
    * Resets the Yaw of the Gyro.
@@ -312,9 +312,12 @@ public class DriveTrain extends SubsystemBase{
    *
    * @return The pose.
    */
+
+   /*
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
+  */
   
   @Override
   public void periodic() {
@@ -338,6 +341,6 @@ public class DriveTrain extends SubsystemBase{
 
     grandKP = SmartDashboard.getNumber("KP", 0.0);
 
-    m_odometry.update(Rotation2d.fromDegrees(getYaw()), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
+    //m_odometry.update(Rotation2d.fromDegrees(getYaw()), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
   }
 }

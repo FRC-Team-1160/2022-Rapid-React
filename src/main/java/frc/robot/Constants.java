@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.util.Units;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -16,7 +14,7 @@ public final class Constants {
   // Units are m kg s unless otherwise specified
 
   // IMPORTANT
-  public static final boolean isFinal = false;
+  public static final boolean isFinal = true;
 
   public static final class PortConstants {
     // CAN ID 
@@ -191,7 +189,7 @@ public final class Constants {
 
   public static final class VisionConstants {
     public static double LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES = 28.414; //20
-    public static double LIMELIGHT_ANGULAR_DISPLACEMENT_RADIANS = Units.degreesToRadians(LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES);
+    public static double LIMELIGHT_ANGULAR_DISPLACEMENT_RADIANS = Math.toRadians(LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES);
   }
 
 }
