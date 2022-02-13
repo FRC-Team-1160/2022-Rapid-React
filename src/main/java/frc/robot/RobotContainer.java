@@ -16,12 +16,18 @@ import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.climb.ClimbControl;
 
 import frc.robot.commands.drive.Drive;
+
 /*
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.commands.feed.FeederControl;
+*/
+
 import frc.robot.commands.intake.IndexerControl;
 import frc.robot.commands.intake.IntakeAngleControl;
 import frc.robot.commands.intake.IntakeControl;
+import frc.robot.subsystems.Climber;
+
+/*
 import frc.robot.commands.panel.PositionControl;
 import frc.robot.commands.panel.RotationControl;
 import frc.robot.commands.panel.SpinnerControl;
@@ -31,14 +37,15 @@ import frc.robot.commands.vision.LimelightCameraToggle;
 import frc.robot.commands.vision.LimelightLightToggle;
 import frc.robot.commands.vision.LimelightSnapshotToggle;
 import frc.robot.commands.vision.LimelightStreamToggle;
-import frc.robot.subsystems.Climber;
 */
 
 import frc.robot.subsystems.DriveTrain;
 
-/*
-import frc.robot.subsystems.Feeder;
+//import frc.robot.subsystems.Feeder;
+
 import frc.robot.subsystems.Intake;
+
+/*
 import frc.robot.subsystems.Panel;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
@@ -54,17 +61,15 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
     // The robot's subsystems
     public final DriveTrain m_driveTrain = DriveTrain.getInstance(); 
+    public final Intake m_intake = Intake.getInstance();
+    public final Climber m_climber = Climber.getInstance();
 
     /*
-    public final Intake m_intake = Intake.getInstance();
-
     public final Feeder m_feeder = Feeder.getInstance();
 
     public final Shooter m_shooter = Shooter.getInstance();
 
     public final Panel m_panel = Panel.getInstance();
-
-    public final Climber m_climber = Climber.getInstance();
     */
 
     // The autonomous routines
@@ -155,7 +160,7 @@ public class RobotContainer {
       //Vision.setPipeline(1);
 
       // Configure the button bindings
-      //configureButtonBindings();
+      configureButtonBindings();
   
       // Configure default commands
       
@@ -164,13 +169,14 @@ public class RobotContainer {
         m_driveTrain)
       );
 
-      /*
       m_climber.setDefaultCommand(new RunCommand(
         () -> m_climber.climbControl((0.5) * m_secondStick.getRawAxis(1) * 12),
         m_climber)
       );
 
-  
+      
+      /*
+
       // Add commands to the autonomous command chooser
       // m_chooser.addOption("Simple Auto", m_simpleAuto);
       // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -186,7 +192,7 @@ public class RobotContainer {
       Shuffleboard.getTab("Autonomous").add(m_chooser);
 
       */
-      
+
     }
   
     /**
@@ -196,15 +202,12 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     
-     /*
     private void configureButtonBindings() {
       // Grab the hatch when the 'A' button is pressed.
       // new JoystickButton(m_driverController, Button.kA.value)
           // .whenPressed(new GrabHatch(m_hatchSubsystem));
       
       //Config for main stick
-      
-      /*
 
       // green wheels up
       new JoystickButton(m_mainStick, Button.kB.value)
@@ -212,11 +215,12 @@ public class RobotContainer {
           new IntakeControl(m_intake, 0.5 * 12)
         );
       //green wheels down
-      new JoystickButton(m_mainStick, Button.kBumperLeft.value)
+      new JoystickButton(m_mainStick, 12)
         .whileHeld(
           new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
         );
 
+      /*
       //Config for first stick
 
       //start shooter motors
@@ -236,8 +240,7 @@ public class RobotContainer {
         .whileHeld(
           new FeederControl(m_feeder, 0.6 * 12)
         );
-      
-      //empty everything out
+      //
       new JoystickButton(m_firstStick, 11)
         .whileHeld(
           new ParallelCommandGroup(
@@ -247,14 +250,13 @@ public class RobotContainer {
           )
         );
       
+        */
       
-      //return arm down
       new JoystickButton(m_firstStick, 6)
         .whileHeld(
           new IntakeAngleControl(m_intake, 0.15 * 12)//-0.3,-0.5
         );
       
-      //pull arm up
       new JoystickButton(m_firstStick, 7)
         .whileHeld(
           new IntakeAngleControl(m_intake, -0.15 * 12)//-0.3,-0.5
@@ -262,7 +264,6 @@ public class RobotContainer {
 
 
     }
-    */
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

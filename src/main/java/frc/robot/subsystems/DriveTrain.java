@@ -31,7 +31,7 @@ public class DriveTrain extends SubsystemBase{
   private static DriveTrain m_instance;
 
   private final CANSparkMax m_frontLeft, m_middleLeft, m_backLeft, m_frontRight, m_middleRight, m_backRight;
-  //private CANEncoder m_leftEncoder, m_rightEncoder;
+  private CANEncoder m_leftEncoder, m_rightEncoder;
   //private CANPIDController m_leftController, m_rightController;
 
   private DifferentialDrive m_drive;
@@ -90,19 +90,19 @@ public class DriveTrain extends SubsystemBase{
     m_middleRight.restoreFactoryDefaults();
     m_backRight.restoreFactoryDefaults();
 
-    m_frontLeft.follow(m_backLeft);
+    //m_frontLeft.follow(m_backLeft);
     m_middleLeft.follow(m_backLeft);
     
-    m_frontRight.follow(m_backRight);
+    //m_frontRight.follow(m_backRight);
     m_middleRight.follow(m_backRight);
 
     //m_leftEncoder = m_backLeft.getEncoder();
     //m_rightEncoder = m_backRight.getEncoder();
 
-    // m_leftEncoder.setPositionConversionFactor(factor);
+    //m_leftEncoder.setPositionConversionFactor(factor);
 
     // important
-    // m_leftEncoder.setVelocityConversionFactor(factor);
+    //m_leftEncoder.setVelocityConversionFactor(factor);
 
     //m_leftController = m_backLeft.getPIDController();
     //m_rightController = m_backRight.getPIDController();
@@ -145,8 +145,11 @@ public class DriveTrain extends SubsystemBase{
   public void voltageDrive(double voltage) // moves each gearbox accordingly
   {
     double sign = Math.signum(voltage);
-    m_backLeft.setVoltage(sign*AutoConstants.kS_CONCRETE + voltage);
+    m_backLeft.setVoltage(-1 * sign*AutoConstants.kS_CONCRETE + voltage);
     m_backRight.setVoltage(sign*AutoConstants.kS_CONCRETE + voltage);
+
+    m_frontLeft.setVoltage(1 * sign*AutoConstants.kS_CONCRETE + voltage);
+    m_frontRight.setVoltage(-1 * sign*AutoConstants.kS_CONCRETE + voltage);
     // SmartDashboard.putNumber("voltage in turn", voltage);
   }
   
@@ -206,7 +209,10 @@ public class DriveTrain extends SubsystemBase{
   
     double[] outputs = scale(x, adaptedZ);
     m_backLeft.setVoltage(outputs[0]);
+    m_frontLeft.setVoltage(outputs[0] * 1);
+
     m_backRight.setVoltage(outputs[1]);
+    m_frontRight.setVoltage(outputs[1] * -1);
 
     // important: might stop jittering!s
     m_drive.feed();

@@ -29,7 +29,8 @@ public final class Constants {
     public static final int INTAKE = 7;
     public static final int INDEXER = 8;
 
-    public static final int CLIMBER = 9;
+    public static final int LEFT_CLIMBER = 42;
+    public static final int RIGHT_CLIMBER = 42;
 
     public static final int LEFT_SHOOTER = 13;
     public static final int RIGHT_SHOOTER = 10;
@@ -47,7 +48,7 @@ public final class Constants {
     public static final int FRONT_LEFT_DRIVE = 1;
     public static final int MIDDLE_LEFT_DRIVE = 2;
     public static final int BACK_LEFT_DRIVE = 3;
-
+    
     public static final int FRONT_RIGHT_DRIVE = 4;
     public static final int MIDDLE_RIGHT_DRIVE = 5;
     public static final int BACK_RIGHT_DRIVE = 6;
@@ -56,7 +57,8 @@ public final class Constants {
     public static final int INDEXER = 9;
     public static final int INTAKE_ANGLE = 11;
 
-    public static final int CLIMBER = 13;
+    public static final int LEFT_CLIMBER = 42;
+    public static final int RIGHT_CLIMBER = 42;
 
     public static final int LEFT_SHOOTER = 14;
     public static final int RIGHT_SHOOTER = 7;
