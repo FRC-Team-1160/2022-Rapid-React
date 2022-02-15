@@ -22,9 +22,12 @@ import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.commands.feed.FeederControl;
 */
 
-//import frc.robot.commands.intake.IndexerControl;
-//import frc.robot.commands.intake.IntakeAngleControl;
-//import frc.robot.commands.intake.IntakeControl;
+/*
+import frc.robot.commands.intake.MiddleIndexerControl;
+import frc.robot.commands.intake.FinalIndexerControl;
+import frc.robot.commands.intake.IntakeControl;
+*/
+
 //import frc.robot.subsystems.Climber;
 
 /*
@@ -32,12 +35,13 @@ import frc.robot.commands.panel.PositionControl;
 import frc.robot.commands.panel.RotationControl;
 import frc.robot.commands.panel.SpinnerControl;
 import frc.robot.commands.shoot.ShootGroupControl;
-import frc.robot.commands.shoot.ShooterControl;
 import frc.robot.commands.vision.LimelightCameraToggle;
 import frc.robot.commands.vision.LimelightLightToggle;
 import frc.robot.commands.vision.LimelightSnapshotToggle;
 import frc.robot.commands.vision.LimelightStreamToggle;
 */
+
+import frc.robot.commands.shoot.ShooterControl;
 
 import frc.robot.subsystems.DriveTrain;
 
@@ -45,9 +49,10 @@ import frc.robot.subsystems.DriveTrain;
 
 //import frc.robot.subsystems.Intake;
 
+import frc.robot.subsystems.Shooter;
+
 /*
 import frc.robot.subsystems.Panel;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 */
 
@@ -61,13 +66,13 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
     // The robot's subsystems
     public final DriveTrain m_driveTrain = DriveTrain.getInstance(); 
+    public final Shooter m_shooter = Shooter.getInstance();
     //public final Intake m_intake = Intake.getInstance();
+
     //public final Climber m_climber = Climber.getInstance();
 
     /*
     public final Feeder m_feeder = Feeder.getInstance();
-
-    public final Shooter m_shooter = Shooter.getInstance();
 
     public final Panel m_panel = Panel.getInstance();
     */
@@ -211,34 +216,41 @@ public class RobotContainer {
       //Config for main stick
 
       /*
-      // green wheels up
+      
       new JoystickButton(m_mainStick, Button.kB.value)
         .whileHeld(
           new IntakeControl(m_intake, 0.5 * 12)
         );
-      //green wheels down
+      
+
       new JoystickButton(m_mainStick, 12)
         .whileHeld(
           new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
         );
-
       */
 
-      /*
       //Config for first stick
 
       //start shooter motors
-      new JoystickButton(m_firstStick, 1)
+      new JoystickButton(m_mainStick, Button.kX.value)
         .whileHeld(
           new ShooterControl(m_shooter, -0.41 * 12)
         );
       
-      // black wheel things on arm
+      
+      /*
       new JoystickButton(m_firstStick, 2)
         .whileHeld(
-          new IndexerControl(m_intake, -0.65 * 12)
+          new MiddleIndexerControl(m_intake, -0.65 * 12)
         );
       
+      new JoystickButton(m_firstStick, 3)
+        .whileHeld(
+          new FinalIndexerControl(m_intake, -0.65 * 12)
+        );
+      */
+
+      /*
       // conveyor belt up
       new JoystickButton(m_firstStick, 3)
         .whileHeld(
@@ -268,7 +280,24 @@ public class RobotContainer {
         );
       */
 
+       // Run Shooter Mid Speed
+       new JoystickButton(m_mainStick, 3)     // it was squared preserving sign so these are the true values from before
+       .whileHeld(
+         new ShooterControl(m_shooter, -0.5 * 12) // 0.5184 // -0.6
+       );
 
+      // Run Shooter Low Speed
+      new JoystickButton(m_mainStick, 2)
+       .whileHeld(
+         new ShooterControl(m_shooter, -0.35 * 12) // 0.4096 // -0.38
+       );
+
+    
+      // Run Shooter High Speed
+      new JoystickButton(m_mainStick, 1)
+       .whileHeld(
+         new ShooterControl(m_shooter, -0.9 * 12)  // 0.81
+       );
     }
 
     /**

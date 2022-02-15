@@ -26,8 +26,9 @@ public final class Constants {
     public static final int MIDDLE_RIGHT_DRIVE = 5;
     public static final int BACK_RIGHT_DRIVE = 6;
 
-    public static final int INTAKE = 7;
-    public static final int INDEXER = 8;
+    public static final int INTAKE = 10;
+    public static final int MIDDLE_INDEXER = 9;
+    public static final int FINAL_INDEXER = 11;
 
     public static final int LEFT_CLIMBER = 42;
     public static final int RIGHT_CLIMBER = 42;
@@ -54,21 +55,28 @@ public final class Constants {
     public static final int BACK_RIGHT_DRIVE = 6;
 
     public static final int INTAKE = 10;
-    public static final int INDEXER = 9;
-    public static final int INTAKE_ANGLE = 11;
+    public static final int MIDDLE_INDEXER = 9;
+    public static final int FINAL_INDEXER = 11;
 
     public static final int LEFT_CLIMBER = 42;
     public static final int RIGHT_CLIMBER = 42;
 
-    public static final int LEFT_SHOOTER = 14;
-    public static final int RIGHT_SHOOTER = 7;
+    public static final int LEFT_SHOOTER = 13;
+    public static final int RIGHT_SHOOTER = 10;
 
     public static final int TOP_FEEDER = 15;
     public static final int BOTTOM_FEEDER = 8;
 
     public static final int SPINNER = 12;
   }
-  
+
+  public static final class ShooterConstants {
+    public static int slotIDx = 0;
+    public static double kP = 0;    
+    public static double kI = 0;    
+    public static double kD = 0;    
+    public static int kTimeoutMs = 30;
+  }
 
   public static final class DriveConstants{
     public static final double OUTPUT_MIN = 0.0;
@@ -194,4 +202,7 @@ public final class Constants {
     public static double LIMELIGHT_ANGULAR_DISPLACEMENT_RADIANS = Math.toRadians(LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES);
   }
 
+  public static final class IntakeConstants{
+    public static double DEGREES_PER_TICK = 14.567;
+  }
 }
