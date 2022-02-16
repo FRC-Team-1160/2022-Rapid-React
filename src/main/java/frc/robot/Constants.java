@@ -36,12 +36,7 @@ public final class Constants {
     public static final int LEFT_SHOOTER = 13;
     public static final int RIGHT_SHOOTER = 10;
 
-    public static final int TOP_FEEDER = 12;
-    public static final int BOTTOM_FEEDER = 11;
-
-    public static final int INTAKE_ANGLE = 14;
-
-    public static final int SPINNER = 15;
+    public static final int TURRET = 42;
   }
 
   public static final class PortConstantsFinal {
@@ -64,10 +59,7 @@ public final class Constants {
     public static final int LEFT_SHOOTER = 13;
     public static final int RIGHT_SHOOTER = 10;
 
-    public static final int TOP_FEEDER = 15;
-    public static final int BOTTOM_FEEDER = 8;
-
-    public static final int SPINNER = 12;
+    public static final int TURRET = 42;
   }
 
   public static final class ShooterConstants {
