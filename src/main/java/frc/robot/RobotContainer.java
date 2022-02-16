@@ -51,10 +51,8 @@ public class RobotContainer {
     public final Climber m_climber = Climber.getInstance();
     public final Turret m_turret = Turret.getInstance();
   
-    // The driver's controller
+    // Controllers
     private Joystick m_mainStick = new Joystick(OIConstants.mainStickPort);
-  
-    // Secondary controllers
     private Joystick m_firstStick = new Joystick(OIConstants.firstStickPort);
     private Joystick m_secondStick = new Joystick(OIConstants.secondStickPort);
 
@@ -73,7 +71,7 @@ public class RobotContainer {
       );
 
       m_climber.setDefaultCommand(new RunCommand(
-        () -> m_climber.climbControl((0.5) * m_secondStick.getRawAxis(1) * 12),
+        () -> m_climber.climbControl((0.5) * m_firstStick.getRawAxis(1) * 12),
         m_climber)
       );
     }
@@ -93,47 +91,51 @@ public class RobotContainer {
           new IntakeControl(m_intake, 0.5 * 12)
         );
       
-      new JoystickButton(m_mainStick, 12)
+      new JoystickButton(m_mainStick, Button.kX.value)
         .whileHeld(
           new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
         );
 
       //Config for first stick
+
+      /*
       new JoystickButton(m_mainStick, Button.kX.value)
         .whileHeld(
           new ShooterControl(m_shooter, -0.41 * 12)
         );
+      */
       
-      new JoystickButton(m_firstStick, 2)
+      new JoystickButton(m_mainStick, 8)
         .whileHeld(
           new MiddleIndexerControl(m_intake, 0.5 * 12)
         );
       
-      new JoystickButton(m_firstStick, 2)
+      new JoystickButton(m_mainStick, 7)
         .whileHeld(
           new MiddleIndexerControl(m_intake, -0.65 * 12)
         );
       
-      new JoystickButton(m_firstStick, 3)
+      new JoystickButton(m_mainStick, 10)
         .whileHeld(
           new FinalIndexerControl(m_intake, 0.5 * 12)
         );
     
-      new JoystickButton(m_firstStick, 3)
+      new JoystickButton(m_mainStick, 9)
         .whileHeld(
           new FinalIndexerControl(m_intake, -0.65 * 12)
         );
       
-      new JoystickButton(m_firstStick, 9)
+      new JoystickButton(m_firstStick, 5)
         .whenPressed(
           new TurretControl(m_turret, 0.5 * 12)
         );
 
-      new JoystickButton(m_firstStick, 9)
+      new JoystickButton(m_firstStick, 4)
         .whenPressed(
           new TurretControl(m_turret, -0.65 * 12)
         );
 
+      /*
        // Run Shooter Mid Speed
        new JoystickButton(m_mainStick, 3)     // it was squared preserving sign so these are the true values from before
        .whileHeld(
@@ -145,9 +147,10 @@ public class RobotContainer {
        .whileHeld(
          new ShooterControl(m_shooter, -0.35 * 12) // 0.4096 // -0.38
        );
+      */
 
       // Run Shooter High Speed
-      new JoystickButton(m_mainStick, 1)
+      new JoystickButton(m_mainStick, Button.kA.value)
        .whileHeld(
          new ShooterControl(m_shooter, -1 * 12)  // 0.81
        );

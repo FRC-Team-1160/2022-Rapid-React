@@ -26,17 +26,17 @@ public final class Constants {
     public static final int MIDDLE_RIGHT_DRIVE = 5;
     public static final int BACK_RIGHT_DRIVE = 6;
 
-    public static final int INTAKE = 10;
+    public static final int INTAKE = 14;
     public static final int MIDDLE_INDEXER = 9;
     public static final int FINAL_INDEXER = 11;
 
-    public static final int LEFT_CLIMBER = 42;
-    public static final int RIGHT_CLIMBER = 42;
+    public static final int LEFT_CLIMBER = 7;
+    public static final int RIGHT_CLIMBER = 8;
 
     public static final int LEFT_SHOOTER = 13;
     public static final int RIGHT_SHOOTER = 10;
 
-    public static final int TURRET = 42;
+    public static final int TURRET = 12;
   }
 
   public static final class PortConstantsFinal {
@@ -44,22 +44,22 @@ public final class Constants {
     public static final int FRONT_LEFT_DRIVE = 1;
     public static final int MIDDLE_LEFT_DRIVE = 2;
     public static final int BACK_LEFT_DRIVE = 3;
-    
+
     public static final int FRONT_RIGHT_DRIVE = 4;
     public static final int MIDDLE_RIGHT_DRIVE = 5;
     public static final int BACK_RIGHT_DRIVE = 6;
 
-    public static final int INTAKE = 10;
+    public static final int INTAKE = 14;
     public static final int MIDDLE_INDEXER = 9;
     public static final int FINAL_INDEXER = 11;
 
-    public static final int LEFT_CLIMBER = 42;
-    public static final int RIGHT_CLIMBER = 42;
+    public static final int LEFT_CLIMBER = 7;
+    public static final int RIGHT_CLIMBER = 8;
 
     public static final int LEFT_SHOOTER = 13;
     public static final int RIGHT_SHOOTER = 10;
 
-    public static final int TURRET = 42;
+    public static final int TURRET = 12;
   }
 
   public static final class ShooterConstants {
@@ -77,14 +77,6 @@ public final class Constants {
     public static final double ANGLE_THRESHOLD = 0.05;
     public static final double TURN_FACTOR = 0.75;
     public static final double LOW_DPI = 0.35;
-  }
-
-  public static final class PanelConstants {
-    //constants for encoder and rotational control
-    public static final int COUNTS_PER_REV = 42;
-    //260 should be equal to 26 spins of the gear box shaft, which is equal to 3 1/4 rotations of panel
-    public static final int MIN_REVS = 260;
-    public static final int CONVERSION_FACTOR = 1;
   }
 
   public static final class AutoConstants {

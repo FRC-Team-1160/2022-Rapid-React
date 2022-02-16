@@ -32,8 +32,8 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     if (Constants.isFinal){
-        m_leftClimber = new CANSparkMax(PortConstantsFinal.LEFT_CLIMBER, MotorType.kBrushless);
-        m_rightClimber = new CANSparkMax(PortConstantsFinal.RIGHT_CLIMBER, MotorType.kBrushless);
+        m_leftClimber = new CANSparkMax(PortConstants.LEFT_CLIMBER, MotorType.kBrushless);
+        m_rightClimber = new CANSparkMax(PortConstants.RIGHT_CLIMBER, MotorType.kBrushless);
     }else{
         m_leftClimber = new CANSparkMax(PortConstantsFinal.LEFT_CLIMBER, MotorType.kBrushless);
         m_rightClimber = new CANSparkMax(PortConstantsFinal.RIGHT_CLIMBER, MotorType.kBrushless);
