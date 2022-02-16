@@ -66,7 +66,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(m_mainStick.getRawAxis(1), m_mainStick.getRawAxis(4), m_mainStick.getRawAxis(2), m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.7 * m_mainStick.getRawAxis(1), 0.7 * m_mainStick.getRawAxis(4), 0.7 * m_mainStick.getRawAxis(2), 0.7 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -127,12 +127,12 @@ public class RobotContainer {
       
       new JoystickButton(m_firstStick, 5)
         .whenPressed(
-          new TurretControl(m_turret, 0.5 * 12)
+          new TurretControl(m_turret, 0.25 * 12)
         );
 
       new JoystickButton(m_firstStick, 4)
         .whenPressed(
-          new TurretControl(m_turret, -0.65 * 12)
+          new TurretControl(m_turret, -0.3 * 12)
         );
 
       /*
