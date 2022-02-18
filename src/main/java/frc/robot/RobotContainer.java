@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 
-//Subsystems
+// Subsystems
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Turret;
 
-//Commands
+// Commands
 import frc.robot.commands.climb.ClimbControl;
 import frc.robot.commands.drive.Drive;
 import frc.robot.commands.turret.TurretControl;
@@ -66,13 +66,8 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.7 * m_mainStick.getRawAxis(1), 0.7 * m_mainStick.getRawAxis(4), 0.7 * m_mainStick.getRawAxis(2), 0.7 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.4 * m_mainStick.getRawAxis(1), 0.4 * m_mainStick.getRawAxis(4), 0.4 * m_mainStick.getRawAxis(2), 0.4 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
-      );
-
-      m_climber.setDefaultCommand(new RunCommand(
-        () -> m_climber.climbControl((0.5) * m_firstStick.getRawAxis(1) * 12),
-        m_climber)
       );
     }
   
@@ -85,75 +80,75 @@ public class RobotContainer {
     
     private void configureButtonBindings() {
       
-      //Config for main stick
+      // Config for main stick
+
+      // Spin green wheels on arm IN
       new JoystickButton(m_mainStick, Button.kB.value)
         .whileHeld(
           new IntakeControl(m_intake, 0.5 * 12)
         );
       
+      // Spin green wheels on arm OUT
       new JoystickButton(m_mainStick, Button.kX.value)
         .whileHeld(
           new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
         );
 
-      //Config for first stick
-
-      /*
-      new JoystickButton(m_mainStick, Button.kX.value)
-        .whileHeld(
-          new ShooterControl(m_shooter, -0.41 * 12)
-        );
-      */
-      
+      // Spin green wheels on middle-inside IN
       new JoystickButton(m_mainStick, 8)
         .whileHeld(
           new MiddleIndexerControl(m_intake, 0.5 * 12)
         );
       
+      // Spin green wheels on middle-inside IN
       new JoystickButton(m_mainStick, 7)
         .whileHeld(
           new MiddleIndexerControl(m_intake, -0.65 * 12)
         );
       
+      // Spin green wheels on back-inside IN
       new JoystickButton(m_mainStick, 10)
         .whileHeld(
           new FinalIndexerControl(m_intake, 0.5 * 12)
         );
-    
+      
+      // Spin green wheels on back-inside OUT
       new JoystickButton(m_mainStick, 9)
         .whileHeld(
           new FinalIndexerControl(m_intake, -0.65 * 12)
         );
+
+      // Shoot at high speed
+      new JoystickButton(m_mainStick, Button.kA.value)
+        .whileHeld(
+          new ShooterControl(m_shooter, -1 * 12)  // 0.81
+        );
       
+      // Config for first stick
+
+      // Turn turret complex to the RIGHT
       new JoystickButton(m_firstStick, 5)
         .whenPressed(
           new TurretControl(m_turret, 0.25 * 12)
         );
 
+      // Turn turret complex to the LEFT
       new JoystickButton(m_firstStick, 4)
         .whenPressed(
           new TurretControl(m_turret, -0.3 * 12)
         );
-
-      /*
-       // Run Shooter Mid Speed
-       new JoystickButton(m_mainStick, 3)     // it was squared preserving sign so these are the true values from before
-       .whileHeld(
-         new ShooterControl(m_shooter, -0.5 * 12) // 0.5184 // -0.6
-       );
-
-      // Run Shooter Low Speed
-      new JoystickButton(m_mainStick, 2)
-       .whileHeld(
-         new ShooterControl(m_shooter, -0.35 * 12) // 0.4096 // -0.38
-       );
-      */
-
-      // Run Shooter High Speed
-      new JoystickButton(m_mainStick, Button.kA.value)
-       .whileHeld(
-         new ShooterControl(m_shooter, -1 * 12)  // 0.81
-       );
+      
+      // Climber DOWN
+      new JoystickButton(m_firstStick, 3)
+        .whenHeld(
+          new ClimbControl(m_climber, 0.1 * 12)
+        );
+      
+      // Climber UP
+      new JoystickButton(m_firstStick, 2)
+        .whenHeld(
+          new ClimbControl(m_climber, -0.1 * 12)
+        );
     }
 
     /**
