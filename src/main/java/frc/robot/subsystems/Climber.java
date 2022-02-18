@@ -41,8 +41,6 @@ public class Climber extends SubsystemBase {
 
     m_leftClimber.restoreFactoryDefaults();
     m_rightClimber.restoreFactoryDefaults();
-    
-    m_rightClimber.follow(m_leftClimber);
   }
 
   /**
@@ -51,6 +49,7 @@ public class Climber extends SubsystemBase {
 
   public void climbControl(double speed){
     m_leftClimber.setVoltage(speed);
+    m_rightClimber.setVoltage(-speed);
   }
 
   @Override

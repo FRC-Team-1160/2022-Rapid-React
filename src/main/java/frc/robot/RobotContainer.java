@@ -138,16 +138,16 @@ public class RobotContainer {
           new TurretControl(m_turret, -0.3 * 12)
         );
       
-      // Climber DOWN
+      // Climber FIRST DIRECTION
       new JoystickButton(m_firstStick, 3)
         .whenHeld(
-          new ClimbControl(m_climber, 0.1 * 12)
+          new ClimbControl(m_climber, -0.1 * 12)
         );
       
-      // Climber UP
+      // Climber SECOND DIRECTION
       new JoystickButton(m_firstStick, 2)
         .whenHeld(
-          new ClimbControl(m_climber, -0.1 * 12)
+          new ClimbControl(m_climber, 0.1 * 12)
         );
     }
 
