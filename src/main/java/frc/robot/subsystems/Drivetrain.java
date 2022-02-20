@@ -12,7 +12,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -90,7 +89,7 @@ public class DriveTrain extends SubsystemBase{
     m_middleRight.restoreFactoryDefaults();
     m_backRight.restoreFactoryDefaults();
 
-    //m_frontLeft.follow(m_backLeft);
+    m_frontLeft.follow(m_backLeft);
     m_middleLeft.follow(m_backLeft);
     
     m_frontRight.follow(m_backRight);

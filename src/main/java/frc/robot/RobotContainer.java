@@ -4,14 +4,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OIConstants;
+/*
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.OIConstants;
+*/
 
 // Subsystems
 import frc.robot.subsystems.DriveTrain;
@@ -22,13 +24,14 @@ import frc.robot.subsystems.Turret;
 
 // Commands
 import frc.robot.commands.climb.ClimbControl;
-import frc.robot.commands.drive.Drive;
 import frc.robot.commands.turret.TurretControl;
 import frc.robot.commands.intake.MiddleIndexerControl;
 import frc.robot.commands.intake.FinalIndexerControl;
 import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
+
 /*
+import frc.robot.commands.drive.Drive;
 import frc.robot.commands.vision.LimelightCameraToggle;
 import frc.robot.commands.vision.LimelightLightToggle;
 import frc.robot.commands.vision.LimelightSnapshotToggle;
@@ -66,7 +69,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.4 * m_mainStick.getRawAxis(1), 0.4 * m_mainStick.getRawAxis(4), 0.4 * m_mainStick.getRawAxis(2), 0.4 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.8 * m_mainStick.getRawAxis(1), 0.8 * m_mainStick.getRawAxis(4), 0.8 * m_mainStick.getRawAxis(2), 0.8 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
     }
@@ -82,44 +85,44 @@ public class RobotContainer {
       
       // Config for main stick
 
-      // Spin green wheels on arm IN
-      new JoystickButton(m_mainStick, Button.kB.value)
+      // Spin green wheels on arm OUT
+      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
         .whileHeld(
           new IntakeControl(m_intake, 0.5 * 12)
         );
       
-      // Spin green wheels on arm OUT
-      new JoystickButton(m_mainStick, Button.kX.value)
+      // Spin green wheels on arm IN
+      new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whileHeld(
           new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
         );
 
-      // Spin green wheels on middle-inside IN
-      new JoystickButton(m_mainStick, 8)
+      // Spin green wheels on middle-inside OUT
+      new JoystickButton(m_firstStick, 7)
         .whileHeld(
           new MiddleIndexerControl(m_intake, 0.5 * 12)
         );
       
       // Spin green wheels on middle-inside IN
-      new JoystickButton(m_mainStick, 7)
+      new JoystickButton(m_firstStick, 2)
         .whileHeld(
           new MiddleIndexerControl(m_intake, -0.65 * 12)
         );
       
-      // Spin green wheels on back-inside IN
-      new JoystickButton(m_mainStick, 10)
+      // Spin green wheels on back-inside OUT
+      new JoystickButton(m_firstStick, 6)
         .whileHeld(
           new FinalIndexerControl(m_intake, 0.5 * 12)
         );
       
-      // Spin green wheels on back-inside OUT
-      new JoystickButton(m_mainStick, 9)
+      // Spin green wheels on back-inside IN
+      new JoystickButton(m_firstStick, 3)
         .whileHeld(
           new FinalIndexerControl(m_intake, -0.65 * 12)
         );
 
       // Shoot at high speed
-      new JoystickButton(m_mainStick, Button.kA.value)
+      new JoystickButton(m_firstStick, 1)
         .whileHeld(
           new ShooterControl(m_shooter, -1 * 12)  // 0.81
         );
@@ -128,24 +131,24 @@ public class RobotContainer {
 
       // Turn turret complex to the RIGHT
       new JoystickButton(m_firstStick, 5)
-        .whenPressed(
-          new TurretControl(m_turret, 0.25 * 12)
+        .whenHeld(
+          new TurretControl(m_turret, 0.1 * 12)
         );
 
       // Turn turret complex to the LEFT
       new JoystickButton(m_firstStick, 4)
-        .whenPressed(
-          new TurretControl(m_turret, -0.3 * 12)
+        .whenHeld(
+          new TurretControl(m_turret, -0.1 * 12)
         );
       
       // Climber FIRST DIRECTION
-      new JoystickButton(m_firstStick, 3)
+      new JoystickButton(m_firstStick, 11)
         .whenHeld(
           new ClimbControl(m_climber, -0.1 * 12)
         );
       
       // Climber SECOND DIRECTION
-      new JoystickButton(m_firstStick, 2)
+      new JoystickButton(m_firstStick, 10)
         .whenHeld(
           new ClimbControl(m_climber, 0.1 * 12)
         );
@@ -162,5 +165,4 @@ public class RobotContainer {
       return m_chooser.getSelected().withTimeout(15);
     }
     */
-    
 }
