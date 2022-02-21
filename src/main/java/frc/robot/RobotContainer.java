@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 /*
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,6 +31,7 @@ import frc.robot.commands.intake.MiddleIndexerControl;
 import frc.robot.commands.intake.FinalIndexerControl;
 import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
+import frc.robot.commands.turret.TurnToAngle;
 
 /*
 import frc.robot.commands.drive.Drive;
@@ -69,7 +72,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.8 * m_mainStick.getRawAxis(1), 0.8 * m_mainStick.getRawAxis(4), 0.8 * m_mainStick.getRawAxis(2), 0.8 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
     }
@@ -120,6 +123,14 @@ public class RobotContainer {
         .whileHeld(
           new FinalIndexerControl(m_intake, -0.65 * 12)
         );
+      
+      //auto aim
+      new JoystickButton(m_mainStick, Button.kA.value)
+      .whenPressed(
+        new SequentialCommandGroup(
+          new TurnToAngle(m_turret).withTimeout(5)
+        )
+      );
 
       // Shoot at high speed
       new JoystickButton(m_firstStick, 1)

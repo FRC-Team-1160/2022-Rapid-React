@@ -110,6 +110,7 @@ public final class Constants {
     public static double TURN_KP = 0.05;
     public static double TURN_KI = 0.0;
     public static double TURN_KD = 0.0;
+    public static double TURN_KF = 0.1;
     public static final double MIN_INPUT = -180.0f;
     public static final double MAX_INPUT = 180.0f;
     public static final double MIN_INGL = -1.0;
