@@ -31,6 +31,7 @@ import frc.robot.commands.intake.MiddleIndexerControl;
 import frc.robot.commands.intake.FinalIndexerControl;
 import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
+import frc.robot.commands.shoot.ShootDistance;
 import frc.robot.commands.turret.TurnToAngle;
 
 /*
@@ -125,17 +126,17 @@ public class RobotContainer {
         );
       
       //auto aim
-      new JoystickButton(m_mainStick, Button.kA.value)
-      .whenPressed(
-        new SequentialCommandGroup(
-          new TurnToAngle(m_turret).withTimeout(5)
-        )
-      );
+      //new JoystickButton(m_mainStick, Button.kA.value)
+      //.whenPressed(
+        //new SequentialCommandGroup(
+          //new TurnToAngle(m_turret).withTimeout(5)
+        //)
+      //);
 
       // Shoot at high speed
       new JoystickButton(m_firstStick, 1)
         .whileHeld(
-          new ShooterControl(m_shooter, -1 * 12)  // 0.81
+          new ShootDistance(m_shooter, 10000)  // 0.81
         );
       
       // Config for first stick

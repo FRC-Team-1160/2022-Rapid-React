@@ -68,6 +68,7 @@ public final class Constants {
     public static double kI = 0;    
     public static double kD = 0;    
     public static int kTimeoutMs = 30;
+    public static double HUB_DISTANCE = 16.5; //feet
   }
 
   public static final class DriveConstants{
