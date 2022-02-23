@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -30,7 +30,7 @@ public class DriveTrain extends SubsystemBase{
   private static DriveTrain m_instance;
 
   private final CANSparkMax m_frontLeft, m_middleLeft, m_backLeft, m_frontRight, m_middleRight, m_backRight;
-  private CANEncoder m_leftEncoder, m_rightEncoder;
+  private RelativeEncoder m_leftEncoder, m_rightEncoder;
   //private CANPIDController m_leftController, m_rightController;
 
   private DifferentialDrive m_drive;
@@ -95,8 +95,8 @@ public class DriveTrain extends SubsystemBase{
     m_frontRight.follow(m_backRight);
     m_middleRight.follow(m_backRight);
 
-    //m_leftEncoder = m_backLeft.getEncoder();
-    //m_rightEncoder = m_backRight.getEncoder();
+    m_leftEncoder = m_backLeft.getEncoder();
+    m_rightEncoder = m_backRight.getEncoder();
 
     //m_leftEncoder.setPositionConversionFactor(factor);
 
@@ -337,6 +337,7 @@ public class DriveTrain extends SubsystemBase{
     };
     */
 
+    SmartDashboard.putNumber("Velocity:", m_leftEncoder.getVelocity());
     // SmartDashboard.putNumberArray("outputs", outputs);
     // AutoConstants.TURN_KP = SmartDashboard.getNumber("TURN_KP", 0.0);
     // AutoConstants.kS = SmartDashboard.getNumber("kS", 0.0);

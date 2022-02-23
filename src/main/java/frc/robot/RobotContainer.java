@@ -98,11 +98,11 @@ public class RobotContainer {
       // Spin green wheels on arm IN
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whileHeld(
-          new IntakeControl(m_intake, -0.4 * 12)//-0.3,-0.5
+          new IntakeControl(m_intake, -0.3 * 12)//-0.3,-0.5
         );
 
       // Spin green wheels on middle-inside OUT
-      new JoystickButton(m_firstStick, 7)
+      new JoystickButton(m_firstStick, 6)
         .whileHeld(
           new MiddleIndexerControl(m_intake, 0.5 * 12)
         );
@@ -114,7 +114,7 @@ public class RobotContainer {
         );
       
       // Spin green wheels on back-inside OUT
-      new JoystickButton(m_firstStick, 6)
+      new JoystickButton(m_firstStick, 7)
         .whileHeld(
           new FinalIndexerControl(m_intake, 0.5 * 12)
         );
@@ -126,17 +126,17 @@ public class RobotContainer {
         );
       
       //auto aim
-      //new JoystickButton(m_mainStick, Button.kA.value)
-      //.whenPressed(
-        //new SequentialCommandGroup(
-          //new TurnToAngle(m_turret).withTimeout(5)
-        //)
-      //);
+      new JoystickButton(m_mainStick, Button.kA.value)
+        .whileHeld(
+          new SequentialCommandGroup(
+            new TurnToAngle(m_turret).withTimeout(5)
+        )
+      );
 
       // Shoot at high speed
       new JoystickButton(m_firstStick, 1)
         .whileHeld(
-          new ShootDistance(m_shooter, 10000)  // 0.81
+          new ShooterControl(m_shooter, -1 * 12)  // 0.81
         );
       
       // Config for first stick

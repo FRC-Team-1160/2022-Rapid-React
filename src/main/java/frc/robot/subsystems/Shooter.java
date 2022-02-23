@@ -49,16 +49,16 @@ public class Shooter extends SubsystemBase {
   
   public Shooter() {
     if (Constants.isFinal){
-      m_leftShooter = new CANSparkMax(PortConstantsFinal.LEFT_SHOOTER, MotorType.kBrushed);
-      m_rightShooter = new CANSparkMax(PortConstantsFinal.RIGHT_SHOOTER, MotorType.kBrushed);
+      m_leftShooter = new CANSparkMax(PortConstantsFinal.LEFT_SHOOTER, MotorType.kBrushless);
+      m_rightShooter = new CANSparkMax(PortConstantsFinal.RIGHT_SHOOTER, MotorType.kBrushless);
 
     }else{
-      m_leftShooter = new CANSparkMax(PortConstants.LEFT_SHOOTER, MotorType.kBrushed);
-      m_rightShooter = new CANSparkMax(PortConstants.RIGHT_SHOOTER, MotorType.kBrushed);
+      m_leftShooter = new CANSparkMax(PortConstants.LEFT_SHOOTER, MotorType.kBrushless);
+      m_rightShooter = new CANSparkMax(PortConstants.RIGHT_SHOOTER, MotorType.kBrushless);
     }
 
-    m_leftEncoder = m_leftShooter.getEncoder(Type.kQuadrature, 1024);
-    m_rightEncoder = m_rightShooter.getEncoder(Type.kQuadrature, 1024);
+    m_leftEncoder = m_leftShooter.getEncoder();
+    m_rightEncoder = m_rightShooter.getEncoder();
 
     m_leftShooter.restoreFactoryDefaults();
     m_rightShooter.restoreFactoryDefaults();
@@ -102,8 +102,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shooterControl(double input){
-    m_leftShooter.setVoltage(-input);
-  
+    m_leftShooter.setVoltage(-input); 
   }
 
   @Override
