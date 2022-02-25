@@ -31,8 +31,9 @@ import frc.robot.commands.intake.MiddleIndexerControl;
 import frc.robot.commands.intake.FinalIndexerControl;
 import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
-import frc.robot.commands.shoot.ShootDistance;
+//import frc.robot.commands.shoot.ShootDistance;
 import frc.robot.commands.turret.TurnToAngle;
+import frc.robot.commands.drive.DriveDistance;
 
 /*
 import frc.robot.commands.drive.Drive;
@@ -98,7 +99,7 @@ public class RobotContainer {
       // Spin green wheels on arm IN
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whileHeld(
-          new IntakeControl(m_intake, -0.3 * 12)//-0.3,-0.5
+          new IntakeControl(m_intake, -0.35 * 12)//-0.3,-0.5
         );
 
       // Spin green wheels on middle-inside OUT
@@ -125,13 +126,19 @@ public class RobotContainer {
           new FinalIndexerControl(m_intake, -0.65 * 12)
         );
       
-      //auto aim
+      // Auto aim
       new JoystickButton(m_mainStick, Button.kA.value)
         .whileHeld(
           new SequentialCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(5)
+            new TurnToAngle(m_turret)
         )
       );
+
+      // Drive an arbitrary distance
+      new JoystickButton(m_mainStick, Button.kX.value)
+          .whenPressed(
+            new DriveDistance(12, 0.35 * 12, m_driveTrain)
+          );
 
       // Shoot at high speed
       new JoystickButton(m_firstStick, 1)

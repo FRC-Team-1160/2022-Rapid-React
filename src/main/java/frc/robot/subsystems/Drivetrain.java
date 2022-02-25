@@ -265,6 +265,11 @@ public class DriveTrain extends SubsystemBase{
     return 0.5*Math.pow(input, 3) + 0.5*Math.pow(input, 1);
   }
 
+  /** Resets the drive encoders to currently read a position of 0. */
+  public void resetEncoders() {
+      m_leftEncoder.setPosition(0.0);
+      m_rightEncoder.setPosition(0.0);
+  }
     /**
    * Returns the current wheel speeds of the robot.
    *
@@ -323,6 +328,10 @@ public class DriveTrain extends SubsystemBase{
     return m_odometry.getPoseMeters();
   }
   */
+
+  public double getAverageEncoderDistance() {
+    return (m_leftEncoder.getPosition() + m_rightEncoder.getPosition()) / 2.0;
+  }
   
   @Override
   public void periodic() {
