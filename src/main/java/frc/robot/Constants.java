@@ -68,7 +68,16 @@ public final class Constants {
     public static double kI = 0;    
     public static double kD = 0;    
     public static int kTimeoutMs = 30;
-    public static double HUB_DISTANCE = 16.5; //feet
+    public static double HUB_DISTANCE = 16.5; 
+    public static double BALL_MASS = 0.27; //kg
+    public static double SHOOTER_MASS = 1.0; //kg
+    public static double Y_OFFSET = 1; //m
+    public static double WHEEL_RADIUS = 0.0762; //m
+    public static double SHOOTER_ANGLE = Math.toRadians(60.0); //radians
+    public static double LIMELIGHT_ANGLE = Math.toRadians(45); //radians
+    public static double MINIMUM_SHOOTING_DISTANCE = 2.59; //m
+    public static double GRAVITY = -9.8; //m/s^2
+    public static double HUB_HEIGHT = 2.641; //m
   }
 
   public static final class DriveConstants{

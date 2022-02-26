@@ -31,7 +31,7 @@ import frc.robot.commands.intake.MiddleIndexerControl;
 import frc.robot.commands.intake.FinalIndexerControl;
 import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
-//import frc.robot.commands.shoot.ShootDistance;
+import frc.robot.commands.shoot.ShootDistance;
 import frc.robot.commands.turret.TurnToAngle;
 import frc.robot.commands.drive.DriveDistance;
 
@@ -77,6 +77,7 @@ public class RobotContainer {
         () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
+
     }
   
     /**
@@ -91,19 +92,25 @@ public class RobotContainer {
       // Config for main stick
 
       // Spin green wheels on arm OUT
-      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
+      new JoystickButton(m_mainStick, Button.kB.value)
         .whileHeld(
           new IntakeControl(m_intake, 0.5 * 12)
         );
       
-      // Spin green wheels on arm IN
+      // Spin green wheels on arm IN at a SLOW speed
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whileHeld(
-          new IntakeControl(m_intake, -0.35 * 12)//-0.3,-0.5
+          new IntakeControl(m_intake, -0.2 * 12)//-0.3,-0.5
         );
+      
+      // Spin green wheels on arm IN at a HIGH speed
+      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
+      .whileHeld(
+        new IntakeControl(m_intake, -0.5 * 12)//-0.3,-0.5
+      );
 
       // Spin green wheels on middle-inside OUT
-      new JoystickButton(m_firstStick, 6)
+      new JoystickButton(m_firstStick, 7)
         .whileHeld(
           new MiddleIndexerControl(m_intake, 0.5 * 12)
         );
@@ -115,7 +122,7 @@ public class RobotContainer {
         );
       
       // Spin green wheels on back-inside OUT
-      new JoystickButton(m_firstStick, 7)
+      new JoystickButton(m_firstStick, 6)
         .whileHeld(
           new FinalIndexerControl(m_intake, 0.5 * 12)
         );
@@ -130,34 +137,39 @@ public class RobotContainer {
       new JoystickButton(m_mainStick, Button.kA.value)
         .whileHeld(
           new SequentialCommandGroup(
-            new TurnToAngle(m_turret)
+            new TurnToAngle(m_turret).withTimeout(5.0)
         )
       );
 
       // Drive an arbitrary distance
       new JoystickButton(m_mainStick, Button.kX.value)
           .whenPressed(
-            new DriveDistance(12, 0.35 * 12, m_driveTrain)
+            new DriveDistance(3, 0.1 * 12, m_driveTrain)
           );
 
-      // Shoot at high speed
       new JoystickButton(m_firstStick, 1)
-        .whileHeld(
-          new ShooterControl(m_shooter, -1 * 12)  // 0.81
+        .whenPressed(
+          new ShootDistance(m_shooter, 1)
         );
-      
+
+      // Reverse shooter
+      new JoystickButton(m_firstStick, 9)
+        .whileHeld(
+          new ShooterControl(m_shooter, 0.5 * 12)
+        );
+
       // Config for first stick
 
       // Turn turret complex to the RIGHT
       new JoystickButton(m_firstStick, 5)
         .whenHeld(
-          new TurretControl(m_turret, 0.1 * 12)
+          new TurretControl(m_turret, 0.3 * 12)
         );
 
       // Turn turret complex to the LEFT
       new JoystickButton(m_firstStick, 4)
         .whenHeld(
-          new TurretControl(m_turret, -0.1 * 12)
+          new TurretControl(m_turret, -0.3 * 12)
         );
       
       // Climber FIRST DIRECTION

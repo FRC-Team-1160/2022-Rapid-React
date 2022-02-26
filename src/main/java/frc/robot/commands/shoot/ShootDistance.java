@@ -9,17 +9,19 @@ package frc.robot.commands.shoot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
-public class ShooterControl extends CommandBase {
+public class ShootDistance extends CommandBase {
   /**
    * Creates a new ShooterControl.
    */
   private Shooter m_shooter;
   private double m_input;
 
-  public ShooterControl(Shooter shooter, double input) {
+  public ShootDistance(Shooter shooter, double input) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
+    //m_input = m_shooter.getShooterVelocity(m_shooter.getBallVelocity(Vision.getTy()));
     m_input = input;
   }
 
@@ -31,13 +33,13 @@ public class ShooterControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.shooterControl(m_input);
+    m_shooter.setReference(m_input);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.shooterControl(0);
+    m_shooter.setReference(0);
   }
 
   // Returns true when the command should end.
@@ -45,5 +47,4 @@ public class ShooterControl extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }
