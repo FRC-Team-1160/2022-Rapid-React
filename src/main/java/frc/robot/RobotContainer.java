@@ -74,7 +74,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.4 * m_mainStick.getRawAxis(1), 0.4 * m_mainStick.getRawAxis(4), 0.4 * m_mainStick.getRawAxis(2), 0.4 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -100,13 +100,13 @@ public class RobotContainer {
       // Spin green wheels on arm IN at a SLOW speed
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whileHeld(
-          new IntakeControl(m_intake, -0.2 * 12)//-0.3,-0.5
+          new IntakeControl(m_intake, -0.175 * 12)//-0.3,-0.5
         );
       
       // Spin green wheels on arm IN at a HIGH speed
       new JoystickButton(m_mainStick, Button.kLeftBumper.value)
       .whileHeld(
-        new IntakeControl(m_intake, -0.5 * 12)//-0.3,-0.5
+        new IntakeControl(m_intake, -0.35 * 12)//-0.3,-0.5
       );
 
       // Spin green wheels on middle-inside OUT
@@ -137,7 +137,7 @@ public class RobotContainer {
       new JoystickButton(m_mainStick, Button.kA.value)
         .whileHeld(
           new SequentialCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(5.0)
+            new TurnToAngle(m_turret)
         )
       );
 
@@ -147,9 +147,16 @@ public class RobotContainer {
             new DriveDistance(3, 0.1 * 12, m_driveTrain)
           );
 
+      //auto fire
       new JoystickButton(m_firstStick, 1)
-        .whenPressed(
-          new ShootDistance(m_shooter, 1)
+        .whileHeld(
+          new ShootDistance(m_shooter)
+        );
+
+      //manual fire
+      new JoystickButton(m_firstStick, 8)
+        .whileHeld(
+          new ShooterControl(m_shooter, -0.3 * 12)
         );
 
       // Reverse shooter
@@ -175,13 +182,13 @@ public class RobotContainer {
       // Climber FIRST DIRECTION
       new JoystickButton(m_firstStick, 11)
         .whenHeld(
-          new ClimbControl(m_climber, -0.1 * 12)
+          new ClimbControl(m_climber, -0.4 * 12)
         );
       
       // Climber SECOND DIRECTION
       new JoystickButton(m_firstStick, 10)
         .whenHeld(
-          new ClimbControl(m_climber, 0.1 * 12)
+          new ClimbControl(m_climber, 0.4 * 12)
         );
     }
 

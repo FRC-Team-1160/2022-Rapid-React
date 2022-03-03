@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
 
   private PIDController m_RIOshootController;
 
-  double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, vA;
 
 
   public static Shooter getInstance(){
@@ -60,6 +60,11 @@ public class Shooter extends SubsystemBase {
     m_leftEncoder = m_leftShooter.getEncoder(Type.kQuadrature, 1024);
     m_rightEncoder = m_rightShooter.getEncoder(Type.kQuadrature, 1024);
 
+    //m_leftEncoder.setVelocityConversionFactor(1/3.14);
+    //m_rightEncoder.setVelocityConversionFactor(1/3.14);
+    m_leftEncoder.setPositionConversionFactor(1/3);
+    m_rightEncoder.setPositionConversionFactor(1/3);
+
     m_leftShooter.restoreFactoryDefaults();
     m_rightShooter.restoreFactoryDefaults();
 
@@ -70,11 +75,16 @@ public class Shooter extends SubsystemBase {
     // PID coefficients
     kP = 0.05; 
     kI = 0;
-    kD = 0; 
+    kD = 0;
     kIz = 0; 
     kFF = 0; 
     kMaxOutput = 0.5; 
     kMinOutput = -0.5;
+
+    //new PID coefficients
+    kP = 0.00175;
+    kFF = 0.5;
+    vA = 2.25;
 
     m_shootController.setP(kP);
     m_shootController.setI(kI);
@@ -97,6 +107,34 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public void PIDControl(double input) {
+    //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
+    double vCoef = vA + ((input-3)*0.125);
+
+    //PID
+    double velocity = vCoef*getShooterVelocity(getBallVelocity(input));
+    double error = velocity - m_rightEncoder.getVelocity()/3;
+    double initialVoltage = kFF;
+    double normalizedValue = (kP * error) + initialVoltage;
+    //CAP at 1 or -1
+    if (normalizedValue > 1) {
+      normalizedValue = 1;
+    } else if (normalizedValue < -1) {
+      normalizedValue = -1;
+    }
+    double output = normalizedValue * 12;
+
+    m_leftShooter.setVoltage(output);
+
+    SmartDashboard.putNumber("Goal Velocity", velocity);
+    SmartDashboard.putNumber("Ball Velocity", getBallVelocity(input));
+    SmartDashboard.putNumber("Error", error);
+    SmartDashboard.putNumber("Normalized Value", normalizedValue);
+    SmartDashboard.putNumber("Output", output);
+    SmartDashboard.putNumber("vCoef", vCoef);
+    SmartDashboard.putNumber("Distance", input);
+  }
+
   public void setReference(double input){
     m_shootController.setReference(input, ControlType.kVelocity);
   }
@@ -105,21 +143,18 @@ public class Shooter extends SubsystemBase {
     m_leftShooter.setVoltage(-input); 
   }
 
-  public void setShooterVelocity(double input){
-    m_shootController.setReference(input, ControlType.kVelocity);
-  }
-
   public double getBallVelocity(double distance){
-    return -1 * (distance * ShooterConstants.GRAVITY) / (Math.sqrt(2 * ShooterConstants.GRAVITY * ((ShooterConstants.HUB_HEIGHT * Math.cos(ShooterConstants.LIMELIGHT_ANGLE)) - (distance * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)))));
+    return Math.sqrt((ShooterConstants.GRAVITY*distance*distance)/(2*Math.cos(ShooterConstants.SHOOTER_ANGLE)*Math.cos(ShooterConstants.SHOOTER_ANGLE)*((ShooterConstants.HUB_HEIGHT - ShooterConstants.SHOOTER_HEIGHT) - (Math.tan(ShooterConstants.SHOOTER_ANGLE)*distance))));
+    //return -1 * (distance * ShooterConstants.GRAVITY) / (Math.sqrt(2 * ShooterConstants.GRAVITY * ((ShooterConstants.HUB_HEIGHT * Math.cos(ShooterConstants.LIMELIGHT_ANGLE)) - (distance * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)))));
   }
 
   public double getShooterVelocity(double ballVelocity){
-    return ballVelocity * Math.sqrt(((2 * ShooterConstants.BALL_MASS) / (ShooterConstants.SHOOTER_MASS)) + 1);
+    return ((ballVelocity * Math.sqrt(((2 * ShooterConstants.BALL_MASS) / (ShooterConstants.SHOOTER_MASS)) + 1))/(2*Math.PI*ShooterConstants.WHEEL_RADIUS))*60;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter Velocity", m_rightEncoder.getVelocity());
+    SmartDashboard.putNumber("Shooter Velocity", m_rightEncoder.getVelocity()/3);
     SmartDashboard.putNumber("Shooter Distance", m_rightEncoder.getPosition());
   }
 }
