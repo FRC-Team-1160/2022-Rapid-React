@@ -109,7 +109,7 @@ public class Shooter extends SubsystemBase {
 
   public void PIDControl(double input) {
     //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
-    double vCoef = vA + ((input-3)*0.125);
+    double vCoef = vA + ((input-3)*0.085);
 
     //PID
     double velocity = vCoef*getShooterVelocity(getBallVelocity(input));
@@ -129,10 +129,9 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Goal Velocity", velocity);
     SmartDashboard.putNumber("Ball Velocity", getBallVelocity(input));
     SmartDashboard.putNumber("Error", error);
-    SmartDashboard.putNumber("Normalized Value", normalizedValue);
     SmartDashboard.putNumber("Output", output);
     SmartDashboard.putNumber("vCoef", vCoef);
-    SmartDashboard.putNumber("Distance", input);
+    SmartDashboard.putNumber("Hub Distance", input);
   }
 
   public void setReference(double input){

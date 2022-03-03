@@ -75,7 +75,7 @@ public final class Constants {
     public static double WHEEL_RADIUS = 0.0762; //m
     public static double SHOOTER_ANGLE = Math.toRadians(60.0); //radians
     public static double SHOOTER_HEIGHT = 0.66; //m
-    public static double LIMELIGHT_ANGLE = Math.toRadians(45); //radians
+    public static double LIMELIGHT_ANGLE = Math.toRadians(40); //radians
     public static double MINIMUM_SHOOTING_DISTANCE = 2.59; //m
     public static double GRAVITY = -9.8; //m/s^2
     public static double HUB_HEIGHT = 2.641; //m

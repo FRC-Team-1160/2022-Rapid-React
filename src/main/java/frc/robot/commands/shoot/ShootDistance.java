@@ -10,6 +10,7 @@ package frc.robot.commands.shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
@@ -18,12 +19,10 @@ public class ShootDistance extends CommandBase {
    * Creates a new ShooterControl.
    */
   private Shooter m_shooter;
-  private double m_input;
 
   public ShootDistance(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooter = shooter;
-    m_input = Vision.getDistance(Vision.getTy() * Math.sin(Math.toRadians(ShooterConstants.LIMELIGHT_ANGLE)));
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +33,7 @@ public class ShootDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.PIDControl(m_input);
+    m_shooter.PIDControl(Vision.getDistance(Vision.getTy() * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)));
   }
 
   // Called once the command ends or is interrupted.
