@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -74,7 +75,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.4 * m_mainStick.getRawAxis(1), 0.4 * m_mainStick.getRawAxis(4), 0.4 * m_mainStick.getRawAxis(2), 0.4 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.6 * m_mainStick.getRawAxis(1), 0.6 * m_mainStick.getRawAxis(4), 0.6 * m_mainStick.getRawAxis(2), 0.6 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -91,47 +92,25 @@ public class RobotContainer {
       
       // Config for main stick
 
-      // Spin green wheels on arm OUT
-      new JoystickButton(m_mainStick, Button.kB.value)
-        .whileHeld(
-          new IntakeControl(m_intake, 0.5 * 12)
-        );
-      
-      // Spin green wheels on arm IN at a SLOW speed
+      // Initial Intake
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
-        .whileHeld(
-          new IntakeControl(m_intake, -0.175 * 12)//-0.3,-0.5
+        .whenPressed(
+          new SequentialCommandGroup(
+            new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.5),
+            new IntakeControl(m_intake, -0.5 * 12).withTimeout(0.25),
+            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.4)
+          )
         );
-      
-      // Spin green wheels on arm IN at a HIGH speed
-      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
-      .whileHeld(
-        new IntakeControl(m_intake, -0.35 * 12)//-0.3,-0.5
-      );
 
-      // Spin green wheels on middle-inside OUT
-      new JoystickButton(m_firstStick, 7)
-        .whileHeld(
-          new MiddleIndexerControl(m_intake, 0.5 * 12)
-        );
-      
-      // Spin green wheels on middle-inside IN
-      new JoystickButton(m_firstStick, 2)
-        .whileHeld(
-          new MiddleIndexerControl(m_intake, -0.65 * 12)
-        );
-      
-      // Spin green wheels on back-inside OUT
-      new JoystickButton(m_firstStick, 6)
-        .whileHeld(
-          new FinalIndexerControl(m_intake, 0.5 * 12)
-        );
-      
-      // Spin green wheels on back-inside IN
-      new JoystickButton(m_firstStick, 3)
-        .whileHeld(
-          new FinalIndexerControl(m_intake, -0.65 * 12)
-        );
+      // Reverse Intake
+      new JoystickButton(m_mainStick, Button.kB.value)
+      .whenPressed(
+        new SequentialCommandGroup(
+          new FinalIndexerControl(m_intake, 0.4 * 12).withTimeout(0.2),
+          new MiddleIndexerControl(m_intake, 0.6 * 12).withTimeout(0.4),
+          new IntakeControl(m_intake, 0.5 * 12).withTimeout(0.5)
+        )
+      );
       
       // Auto aim
       new JoystickButton(m_mainStick, Button.kA.value)
@@ -147,16 +126,36 @@ public class RobotContainer {
             new DriveDistance(3, 0.1 * 12, m_driveTrain)
           );
 
-      //auto fire
-      new JoystickButton(m_firstStick, 1)
-        .whileHeld(
-          new ShootDistance(m_shooter)
-        );
-
       //manual fire
       new JoystickButton(m_firstStick, 8)
-        .whileHeld(
-          new ShooterControl(m_shooter, -0.3 * 12)
+        .whenPressed(
+          new SequentialCommandGroup(
+            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+            new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.5)
+          )
+        );
+      new JoystickButton(m_firstStick, 8)
+      .whenPressed(
+        new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2)
+      );
+      //
+
+
+      //auto fire
+      new JoystickButton(m_firstStick, 1)
+        .whenPressed(
+          new SequentialCommandGroup(
+            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.8),
+            new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.5)
+          )
+        );
+      new JoystickButton(m_firstStick, 1)
+        .whenPressed(
+          new ShootDistance(m_shooter).withTimeout(3.4)
         );
 
       // Reverse shooter
