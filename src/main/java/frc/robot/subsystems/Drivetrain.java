@@ -332,14 +332,6 @@ public class DriveTrain extends SubsystemBase{
   public double getAverageEncoderDistance() {
     return (m_leftEncoder.getPosition() + m_rightEncoder.getPosition()) / 2.0;
   }
-
-  public double getRightEncoderDistance() {
-    return m_rightEncoder.getPosition();
-  }
-
-  public double getLeftEncoderDistance() {
-    return m_leftEncoder.getPosition();
-  }
   
   @Override
   public void periodic() {

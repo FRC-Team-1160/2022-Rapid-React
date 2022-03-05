@@ -43,6 +43,6 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(m_drive.getLeftEncoderDistance()) >= m_distance;
+    return Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance;
   }
 }
