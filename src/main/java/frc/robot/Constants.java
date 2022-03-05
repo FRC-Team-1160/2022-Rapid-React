@@ -118,7 +118,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Turn
-    public static double TURN_KP = 0.05;
+    public static double TURN_KP = 0.12;
     public static double TURN_KI = 0.0;
     public static double TURN_KD = 0.0;
     public static double TURN_KF = 0.5;

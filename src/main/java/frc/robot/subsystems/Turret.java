@@ -84,7 +84,7 @@ public class Turret extends SubsystemBase {
 
   public void voltageDrive(double voltage){
     double sign = Math.signum(voltage);
-    m_turret.setVoltage(sign*AutoConstants.kS_CONCRETE + voltage);
+    m_turret.setVoltage(sign*AutoConstants.kS + voltage);
   }
 
   /**

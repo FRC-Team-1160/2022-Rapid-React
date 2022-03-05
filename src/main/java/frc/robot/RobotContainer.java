@@ -149,8 +149,8 @@ public class RobotContainer {
       
       // Auto aim
       new JoystickButton(m_mainStick, Button.kA.value)
-        .whileHeld(
-          new TurnToAngle(m_turret).withTimeout(5.0)
+        .whenPressed(
+          new TurnToAngle(m_turret).withTimeout(3.0)
         );
 
       // Drive an arbitrary distance

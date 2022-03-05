@@ -17,6 +17,9 @@ import frc.robot.subsystems.Vision.LightMode;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
+
+  private Turret m_turret;
+
   /**
    * Creates a new TurnToAngle.
    * 
@@ -34,6 +37,7 @@ public class TurnToAngle extends PIDCommand {
         output -> t.voltageDrive(output)
         );
     t.setLastTurnNumber(Vision.getTx());
+    m_turret = t;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
@@ -50,6 +54,7 @@ public class TurnToAngle extends PIDCommand {
         output -> t.voltageDrive(output + Math.signum(output)*AutoConstants.TURN_KF)
         );
     t.setLastTurnNumber(setpoint);
+    m_turret = t;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
@@ -67,6 +72,6 @@ public class TurnToAngle extends PIDCommand {
 
   @Override
   public void end(boolean interrupted) {
-    
+    m_turret.voltageDrive(0);
   }
 }
