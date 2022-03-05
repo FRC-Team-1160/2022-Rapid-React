@@ -19,6 +19,7 @@ import frc.robot.subsystems.Vision.LightMode;
 public class TurnToAngle extends PIDCommand {
   /**
    * Creates a new TurnToAngle.
+   * 
    */
   // new PIDCommand(m_driveTrain.turnController, m_driveTrain,       90.0f,        m_driveTrain,       m_driveTrain);
   public TurnToAngle(Turret t) {
@@ -61,7 +62,7 @@ public class TurnToAngle extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 
   @Override

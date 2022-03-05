@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -65,6 +67,23 @@ public class RobotContainer {
     private Joystick m_firstStick = new Joystick(OIConstants.firstStickPort);
     private Joystick m_secondStick = new Joystick(OIConstants.secondStickPort);
 
+    //auto routines
+    private final Command m_shootDistance = 
+      new SequentialCommandGroup(
+        //new TurnToAngle(m_turret).withTimeout(3),
+        new ParallelCommandGroup(
+          new ShootDistance(m_shooter).withTimeout(3.4),
+          new SequentialCommandGroup(
+            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
+            new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+            new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
+          )
+        )
+      );
+
+    SendableChooser<Command> m_chooser = new SendableChooser<>();
+
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
@@ -79,7 +98,11 @@ public class RobotContainer {
         m_driveTrain)
       );
 
+      m_chooser.addOption("ShootDistance", m_shootDistance);
+
     }
+
+      
   
     /**
      * Use this method to define your button->command mappings.  Buttons can be created by
@@ -97,17 +120,29 @@ public class RobotContainer {
         .whenPressed(
           new SequentialCommandGroup(
             new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.5),
-            new IntakeControl(m_intake, -0.5 * 12).withTimeout(0.25),
-            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.4)
+            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
+          )
+        ); 
+      new JoystickButton(m_mainStick, Button.kRightBumper.value)
+        .whenPressed(
+          new SequentialCommandGroup(
+            new MiddleIndexerControl(m_intake, 0).withTimeout(1.4),
+            new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(0.5)
           )
         );
+      //
+
+      /*new JoystickButton(m_mainStick, Button.kY.value)
+      .whileHeld(
+        new IntakeControl(m_intake, -0.5 * 12)
+      );*/
 
       // Reverse Intake
       new JoystickButton(m_mainStick, Button.kB.value)
       .whenPressed(
         new SequentialCommandGroup(
           new FinalIndexerControl(m_intake, 0.4 * 12).withTimeout(0.2),
-          new MiddleIndexerControl(m_intake, 0.6 * 12).withTimeout(0.4),
+          new MiddleIndexerControl(m_intake, 0.6 * 12).withTimeout(0.5),
           new IntakeControl(m_intake, 0.5 * 12).withTimeout(0.5)
         )
       );
@@ -115,47 +150,42 @@ public class RobotContainer {
       // Auto aim
       new JoystickButton(m_mainStick, Button.kA.value)
         .whileHeld(
-          new SequentialCommandGroup(
-            new TurnToAngle(m_turret)
-        )
-      );
+          new TurnToAngle(m_turret).withTimeout(5.0)
+        );
 
       // Drive an arbitrary distance
       new JoystickButton(m_mainStick, Button.kX.value)
           .whenPressed(
-            new DriveDistance(3, 0.1 * 12, m_driveTrain)
+            new DriveDistance(3, 0.05 * 12, m_driveTrain)
           );
 
       //manual fire
       new JoystickButton(m_firstStick, 8)
         .whenPressed(
-          new SequentialCommandGroup(
-            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
-            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
-            new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
-            new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.5)
+          new ParallelCommandGroup(
+            new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2),
+            new SequentialCommandGroup(
+              new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+              new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+              new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
+            )
           )
         );
-      new JoystickButton(m_firstStick, 8)
-      .whenPressed(
-        new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2)
-      );
       //
-
 
       //auto fire
       new JoystickButton(m_firstStick, 1)
         .whenPressed(
-          new SequentialCommandGroup(
-            new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
-            new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
-            new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.8),
-            new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.5)
+          new ParallelCommandGroup(
+            new ShootDistance(m_shooter).withTimeout(3.4),
+            new SequentialCommandGroup(
+              new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+              new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+              new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
+            )
           )
-        );
-      new JoystickButton(m_firstStick, 1)
-        .whenPressed(
-          new ShootDistance(m_shooter).withTimeout(3.4)
         );
 
       // Reverse shooter
@@ -197,9 +227,9 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
 
-    /*
+    
     public Command getAutonomousCommand() {
-      return m_chooser.getSelected().withTimeout(15);
+      return m_shootDistance;
     }
-    */
+    
 }

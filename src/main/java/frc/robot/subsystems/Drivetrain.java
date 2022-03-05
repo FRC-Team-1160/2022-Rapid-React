@@ -144,7 +144,7 @@ public class DriveTrain extends SubsystemBase{
   public void voltageDrive(double voltage) // moves each gearbox accordingly
   {
     double sign = Math.signum(voltage);
-    m_backLeft.setVoltage(-1 * sign*AutoConstants.kS_CONCRETE + voltage);
+    m_backLeft.setVoltage(1 * sign*AutoConstants.kS_CONCRETE + voltage);
     m_backRight.setVoltage(sign*AutoConstants.kS_CONCRETE + voltage);
 
     m_frontLeft.setVoltage(1 * sign*AutoConstants.kS_CONCRETE + voltage);
