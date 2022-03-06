@@ -151,6 +151,12 @@ public class DriveTrain extends SubsystemBase{
     //m_frontRight.setVoltage(-1 * sign*AutoConstants.kS_CONCRETE + voltage);
     // SmartDashboard.putNumber("voltage in turn", voltage);
   }
+
+  public void voltageDriveTurn(double voltage){
+    m_backLeft.setVoltage(voltage);
+    m_backRight.setVoltage(voltage);
+    SmartDashboard.putNumber("Voltage", voltage);
+  }
   
   /**
    * Manual Drive of the robot.
@@ -299,7 +305,7 @@ public class DriveTrain extends SubsystemBase{
   public double getYaw() {
     return m_gyro.getYaw();
   }
-
+  
   /**
    * Resets the yaw of the Gyro.
    *
@@ -332,6 +338,14 @@ public class DriveTrain extends SubsystemBase{
   public double getAverageEncoderDistance() {
     return (m_leftEncoder.getPosition() + m_rightEncoder.getPosition()) / 2.0;
   }
+
+  public double getLeftEncoderDistance() {
+    return m_leftEncoder.getPosition();
+  }
+
+  public double getRightEncoderDistance() {
+    return m_rightEncoder.getPosition();
+  }
   
   @Override
   public void periodic() {
@@ -345,6 +359,8 @@ public class DriveTrain extends SubsystemBase{
       m_backRight.getBusVoltage(),
     };
     */
+    SmartDashboard.putNumber("leftEncoder", m_leftEncoder.getPosition());
+    SmartDashboard.putNumber("rightEncoder", m_rightEncoder.getPosition());
 
     SmartDashboard.putNumber("Velocity:", m_leftEncoder.getVelocity());
     // SmartDashboard.putNumberArray("outputs", outputs);

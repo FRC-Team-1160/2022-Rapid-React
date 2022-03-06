@@ -6,10 +6,11 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveDistance extends CommandBase {
+public class TurnAround extends CommandBase {
   private final DriveTrain m_drive;
-  private final double m_distance;
+  private final double m_displacement;
   private final double m_speed;
 
   /**
@@ -19,8 +20,8 @@ public class DriveDistance extends CommandBase {
    * @param speed The speed at which the robot will drive
    * @param drive The drive subsystem on which this command will run
    */
-  public DriveDistance(double inches, double speed, DriveTrain drive) {
-    m_distance = inches / 1.25;
+  public TurnAround(double displacement, double speed, DriveTrain drive) {
+    m_displacement = displacement / 6.0;
     m_speed = speed;
     m_drive = drive;
     addRequirements(m_drive);
@@ -28,12 +29,14 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void initialize() {
+    m_drive.zeroYaw();
     m_drive.resetEncoders();
   }
 
   @Override
   public void execute() {
-    m_drive.tankDrive(-1 * m_speed, 0, 0, 0);
+    m_drive.voltageDriveTurn(m_speed);
+    SmartDashboard.putNumber("gyro", m_drive.getYaw());
   }
 
   @Override
@@ -43,6 +46,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(m_drive.getLeftEncoderDistance()) >= m_distance;
+    SmartDashboard.putNumber("gyro4", m_drive.getYaw());
+    return Math.abs(m_drive.getLeftEncoderDistance()) >= m_displacement;
   }
 }
