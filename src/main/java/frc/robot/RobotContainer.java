@@ -212,17 +212,18 @@ public class RobotContainer {
           new TurnToAngle(m_turret).withTimeout(3.0)
         );
 
-      // Drive an arbitrary distance (drives 125% inches over actual parameter)
+      // Drive an arbitrary distance
       new JoystickButton(m_mainStick, Button.kX.value)
           .whenPressed(
             new DriveDistance(48, 0.04 * 12, m_driveTrain)
           );
 
-      // Turn around
+      // 2-ball auto (test)
+      /*
       new JoystickButton(m_mainStick, Button.kY.value)
         .whenPressed(
           new SequentialCommandGroup(
-            this.getShootIndoor(), //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
+            this.getShootDistance(), //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
             new TurnAround(180, 0.09 * 12, m_driveTrain),
             new DriveDistance(25, 0.04 * 12, m_driveTrain),
             new ParallelCommandGroup(
@@ -231,7 +232,23 @@ public class RobotContainer {
             ),
             this.getInitialIntake(),
             new TurnAround(180, 0.09 * 12, m_driveTrain),
-            this.getShootIndoor() //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
+            this.getShootDistance() //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
+          )
+        );
+        */
+
+        new JoystickButton(m_mainStick, Button.kY.value)
+        .whenPressed(
+          new SequentialCommandGroup(
+            new DriveDistance(20, 0.04 * 12, m_driveTrain),
+            new ParallelCommandGroup(
+              new DriveDistance(50, 0.04 * 12, m_driveTrain),
+              this.getInitialIntake()
+            ),
+            this.getInitialIntake(),
+            new TurnAround(180, 0.15 * 12, m_driveTrain),
+            this.getShootDistance(), //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
+            this.getShootDistance()
           )
         );
 
@@ -255,7 +272,7 @@ public class RobotContainer {
         .whenPressed(
           new ParallelCommandGroup(
             new TurnToAngle(m_turret).withTimeout(2),
-            new ShootDistance(m_shooter).withTimeout(3.4),
+            new ShootDistance(m_shooter).withTimeout(4),
             new SequentialCommandGroup(
               new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
@@ -263,6 +280,11 @@ public class RobotContainer {
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
             )
           )
+        );
+      
+      new JoystickButton(m_firstStick, 7)
+        .whileHeld(
+          new ShooterControl(m_shooter, -0.5 * 12)
         );
 
       // Reverse shooter

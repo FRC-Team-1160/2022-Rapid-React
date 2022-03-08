@@ -22,6 +22,7 @@ public class ShootDistance extends CommandBase {
 
   public ShootDistance(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
     m_shooter = shooter;
   }
 
@@ -33,7 +34,7 @@ public class ShootDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.PIDControl(Vision.getDistance(Vision.getTy() * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)));
+      m_shooter.PIDControl(Vision.getDistance(Vision.getTy() * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)));
   }
 
   // Called once the command ends or is interrupted.

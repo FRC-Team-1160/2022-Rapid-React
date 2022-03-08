@@ -39,7 +39,6 @@ public class Shooter extends SubsystemBase {
 
   double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, vA;
 
-
   public static Shooter getInstance(){
     if (m_instance == null){
       m_instance = new Shooter();
@@ -47,7 +46,7 @@ public class Shooter extends SubsystemBase {
     return m_instance;
   }
   
-  public Shooter() {
+  private Shooter() {
     if (Constants.isFinal){
       m_leftShooter = new CANSparkMax(PortConstantsFinal.LEFT_SHOOTER, MotorType.kBrushed);
       m_rightShooter = new CANSparkMax(PortConstantsFinal.RIGHT_SHOOTER, MotorType.kBrushed);
@@ -73,7 +72,7 @@ public class Shooter extends SubsystemBase {
     m_shootController = m_leftShooter.getPIDController();
 
     // PID coefficients
-    kP = 0.05; 
+    kP = 0.1; 
     kI = 0;
     kD = 0;
     kIz = 0; 
@@ -84,7 +83,7 @@ public class Shooter extends SubsystemBase {
     //new PID coefficients
     kP = 0.00175;
     kFF = 0.5;
-    vA = 2.25;
+    vA = 2.2815;
 
     m_shootController.setP(kP);
     m_shootController.setI(kI);
@@ -109,7 +108,7 @@ public class Shooter extends SubsystemBase {
 
   public void PIDControl(double input) {
     //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
-    double vCoef = vA + ((input-3)*0.085);
+    double vCoef = vA + ((input-3)*0.240);
 
     //PID
     double velocity = vCoef*getShooterVelocity(getBallVelocity(input));
@@ -132,6 +131,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Output", output);
     SmartDashboard.putNumber("vCoef", vCoef);
     SmartDashboard.putNumber("Hub Distance", input);
+    SmartDashboard.putNumber("Encoder Velocity", m_leftEncoder.getVelocity());
   }
 
   public void setReference(double input){
@@ -153,7 +153,9 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter Velocity", m_rightEncoder.getVelocity()/3);
+    SmartDashboard.putNumber("Shooter Velocity Right", m_rightEncoder.getVelocity()/3);
+    SmartDashboard.putNumber("Shooter Velocity Left", m_leftEncoder.getVelocity()/3);
     SmartDashboard.putNumber("Shooter Distance", m_rightEncoder.getPosition());
+    SmartDashboard.putNumber("Bus Voltage", m_leftShooter.getBusVoltage());
   }
 }

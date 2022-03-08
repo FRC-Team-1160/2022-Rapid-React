@@ -19,6 +19,7 @@ public class ShooterControl extends CommandBase {
 
   public ShooterControl(Shooter shooter, double input) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
     m_shooter = shooter;
     m_input = input;
   }
