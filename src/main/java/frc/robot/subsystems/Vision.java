@@ -10,8 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Vision{
   /**
@@ -177,12 +176,12 @@ public class Vision{
 
   // TODO: account for ang displacement of robot (gyro.getPitch)
   public static double getDistance(double angularDisplacement){
-    return FieldConstants.RELATIVE_INNER_PORT_HEIGHT/(Math.tan(Math.toRadians(VisionConstants.LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES + angularDisplacement)));
+    return (ShooterConstants.HUB_HEIGHT - ShooterConstants.Y_OFFSET)/(Math.tan(Math.toRadians(ShooterConstants.LIMELIGHT_ANGLE + angularDisplacement)));
   }
 
   // v = (d*sqrt(g))/(cos(theta)*sqrt(2(dtan(theta)-h)))
   public static double getVelocity(double displacement){
-    return (displacement * Math.sqrt(9.8)) / (Math.cos(VisionConstants.LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES) * Math.sqrt(2 * (displacement * Math.tan(VisionConstants.LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES) - FieldConstants.RELATIVE_INNER_PORT_HEIGHT)));
+    return (displacement * Math.sqrt(9.8)) / (Math.cos(ShooterConstants.LIMELIGHT_ANGLE) * Math.sqrt(2 * (displacement * Math.tan(ShooterConstants.LIMELIGHT_ANGLE) - ShooterConstants.HUB_HEIGHT)));
   }
   //height1 = 65.5 + 18 = 83.5 inches = 212.09 cm + 30.48 = 242.57cm
   //height3 = 19.5 inches = 49.53 cm

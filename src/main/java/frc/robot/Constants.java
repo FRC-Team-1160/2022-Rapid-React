@@ -75,7 +75,7 @@ public final class Constants {
     public static double WHEEL_RADIUS = 0.0762; //m
     public static double SHOOTER_ANGLE = Math.toRadians(60.0); //radians
     public static double SHOOTER_HEIGHT = 0.66; //m
-    public static double LIMELIGHT_ANGLE = Math.toRadians(40); //radians
+    public static double LIMELIGHT_ANGLE = Math.toRadians(39); //radians
     public static double MINIMUM_SHOOTING_DISTANCE = 2.59; //m
     public static double GRAVITY = -9.8; //m/s^2
     public static double HUB_HEIGHT = 2.641; //m
@@ -185,18 +185,7 @@ public final class Constants {
     public static final int secondStickPort = 2;
     public static final int thirdStickPort = 3;
 
-  }
-
-  public static final class FieldConstants {
-    public static double INNER_PORT_HEIGHT = 2.4257; // meters
-    public static double LIMELIGHT_HEIGHT = 0.4953; // meters
-    public static double RELATIVE_INNER_PORT_HEIGHT = 1.8542; // INNER_PORT_HEIGHT - LIMELIGHT_HEIGHT; //meters; calculation in vision.java
-  }
-
-  public static final class VisionConstants {
-    public static double LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES = 28.414; //20
-    public static double LIMELIGHT_ANGULAR_DISPLACEMENT_RADIANS = Math.toRadians(LIMELIGHT_ANGULAR_DISPLACEMENT_DEGREES);
-  }
+  }  
 
   public static final class IntakeConstants{
     public static double DEGREES_PER_TICK = 14.567;
