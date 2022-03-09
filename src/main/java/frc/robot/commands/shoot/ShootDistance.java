@@ -10,7 +10,6 @@ package frc.robot.commands.shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
@@ -34,8 +33,8 @@ public class ShootDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.PIDControl(3.0);
-      //m_shooter.PIDControl(Vision.getDistance(Vision.getTy() * Math.sin(ShooterConstants.LIMELIGHT_ANGLE)));
+    //m_shooter.PIDControl(3.0);
+    m_shooter.PIDControl(Vision.getDistance(Vision.getTy()));
   }
 
   // Called once the command ends or is interrupted.

@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase {
     m_shootController = m_leftShooter.getPIDController();
 
     // PID coefficients
-    kP = 0.1; 
+    kP = 0.12; 
     kI = 0;
     kD = 0;
     kIz = 0; 
@@ -81,9 +81,9 @@ public class Shooter extends SubsystemBase {
     kMinOutput = -0.5;
 
     //new PID coefficients
-    kP = 0.00175;
+    kP = 0.000175;
     kFF = 0.5;
-    vA = 2.2815;
+    vA = 3.0;
 
     m_shootController.setP(kP);
     m_shootController.setI(kI);
@@ -108,7 +108,7 @@ public class Shooter extends SubsystemBase {
 
   public void PIDControl(double input) {
     //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
-    double vCoef = vA + ((input-3)*0.240);
+    double vCoef = vA + ((input-3)*0.35);
 
     //PID
     double velocity = vCoef*getShooterVelocity(getBallVelocity(input));
@@ -126,11 +126,9 @@ public class Shooter extends SubsystemBase {
     m_leftShooter.setVoltage(output);
 
     SmartDashboard.putNumber("Goal Velocity", velocity);
-    SmartDashboard.putNumber("Ball Velocity", getBallVelocity(input));
     SmartDashboard.putNumber("Error", error);
     SmartDashboard.putNumber("Output", output);
     SmartDashboard.putNumber("vCoef", vCoef);
-    SmartDashboard.putNumber("Hub Distance", input);
     SmartDashboard.putNumber("Encoder Velocity", m_leftEncoder.getVelocity());
   }
 
@@ -157,5 +155,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Velocity Left", m_leftEncoder.getVelocity()/3);
     SmartDashboard.putNumber("Shooter Distance", m_rightEncoder.getPosition());
     SmartDashboard.putNumber("Bus Voltage", m_leftShooter.getBusVoltage());
+    
+    SmartDashboard.putNumber("Ball Velocity", getBallVelocity(Vision.getDistance(Vision.getTy() * Math.sin(ShooterConstants.LIMELIGHT_ANGLE))));
+    SmartDashboard.putNumber("Hub Distance", Vision.getDistance(Vision.getTy()));
   }
 }

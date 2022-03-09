@@ -141,8 +141,8 @@ public class RobotContainer {
         new ShootDistance(m_shooter).withTimeout(3.4),
         new SequentialCommandGroup(
           new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
-          new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
-          new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+          new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
+          new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3),
           new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
         )
       );
@@ -152,10 +152,10 @@ public class RobotContainer {
 
       return new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.5),
+          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.6),
           new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
         ),
-        new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(2.0)
+        new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(1.9)
       );
     }
 
@@ -175,21 +175,19 @@ public class RobotContainer {
       // Initial Intake
       new JoystickButton(m_mainStick, Button.kRightBumper.value)
         .whenPressed(
-          new ParallelCommandGroup(
-            new SequentialCommandGroup(
-              new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.5),
-              new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
-            ),
-            new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(2.0)
-          )
-          
+          this.getInitialIntake()
         );
       //
 
-      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
+      new JoystickButton(m_firstStick, 2)
         .whileHeld(
           new MiddleIndexerControl(m_intake, -0.3 * 12)
         );
+      
+      new JoystickButton(m_mainStick, Button.kLeftBumper.value)
+      .whileHeld(
+        new IntakeControl(m_intake, -0.2 * 12)
+      );
 
       /*new JoystickButton(m_mainStick, Button.kY.value)
       .whileHeld(
@@ -247,8 +245,18 @@ public class RobotContainer {
             ),
             this.getInitialIntake(),
             new TurnAround(180, 0.15 * 12, m_driveTrain),
-            this.getShootDistance(), //replace with getShootDistance to shoot at hub instead of indoor (requires limelight)
-            this.getShootDistance()
+            new ParallelCommandGroup(
+              new TurnToAngle(m_turret).withTimeout(2),
+              new ShooterControl(m_shooter, -0.3 * 12).withTimeout(5), ////////
+              new SequentialCommandGroup(
+                new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
+                new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
+                new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.5),
+                new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+                new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
+                new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.7)
+              )
+            )
           )
         );
 
@@ -256,7 +264,7 @@ public class RobotContainer {
       new JoystickButton(m_firstStick, 8)
         .whenPressed(
           new ParallelCommandGroup(
-            new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2),
+            new ShootDistance(m_shooter).withTimeout(3.2),
             new SequentialCommandGroup(
               new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
