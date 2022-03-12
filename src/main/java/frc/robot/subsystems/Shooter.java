@@ -37,7 +37,9 @@ public class Shooter extends SubsystemBase {
 
   private PIDController m_RIOshootController;
 
-  double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, vA;
+  private double accumulator;
+
+  double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, vA, maxA;
 
   public static Shooter getInstance(){
     if (m_instance == null){
@@ -79,11 +81,14 @@ public class Shooter extends SubsystemBase {
     kFF = 0; 
     kMaxOutput = 0.5; 
     kMinOutput = -0.5;
+    maxA = 30000;
+    accumulator = 0;
 
     //new PID coefficients
-    kP = 0.000175;
+    kP = 0.0002;
+    kI = 0.0000125;
     kFF = 0.5;
-    vA = 2.83;
+    vA = 1.7;
 
     m_shootController.setP(kP);
     m_shootController.setI(kI);
@@ -106,15 +111,30 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public void setAccumulator(double input) {
+    accumulator = input;
+  }
+
   public void PIDControl(double input) {
     //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
-    double vCoef = vA + ((input-2.5)*-0.43);
+    double vCoef = vA + ((input-2.6)*2.1);
 
     //PID
     double velocity = vCoef*getShooterVelocity(getBallVelocity(input));
     double error = velocity - m_rightEncoder.getVelocity()/3;
+
+    if (error < 500 && error > -500) {
+      accumulator += error;
+    }
+
+    if (accumulator > maxA) {
+      accumulator = maxA;
+    } else if (accumulator < -maxA) {
+      accumulator = -maxA;
+    }
+
     double initialVoltage = kFF;
-    double normalizedValue = (kP * error) + initialVoltage;
+    double normalizedValue = (kI * accumulator) + (kP * error) + initialVoltage;
     //CAP at 1 or -1
     if (normalizedValue > 1) {
       normalizedValue = 1;
@@ -129,6 +149,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Error", error);
     SmartDashboard.putNumber("Output", output);
     SmartDashboard.putNumber("vCoef", vCoef);
+    SmartDashboard.putNumber("Accumulator", accumulator);
     SmartDashboard.putNumber("Encoder Velocity", m_leftEncoder.getVelocity());
   }
 

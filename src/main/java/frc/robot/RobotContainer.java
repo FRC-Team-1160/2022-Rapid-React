@@ -337,11 +337,11 @@ public class RobotContainer {
         .whenPressed(
           new ParallelCommandGroup(
             new TurnToAngle(m_turret).withTimeout(2),
-            new ShootDistance(m_shooter).withTimeout(4),
+            new ShootDistance(m_shooter).withTimeout(3.0),
             new SequentialCommandGroup(
               new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
               new TurretControl(m_turret, -0.02 * 12).withTimeout(0.05),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
             )
