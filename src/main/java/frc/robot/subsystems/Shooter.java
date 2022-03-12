@@ -83,7 +83,7 @@ public class Shooter extends SubsystemBase {
     //new PID coefficients
     kP = 0.000175;
     kFF = 0.5;
-    vA = 3.0;
+    vA = 2.83;
 
     m_shootController.setP(kP);
     m_shootController.setI(kI);
@@ -108,7 +108,7 @@ public class Shooter extends SubsystemBase {
 
   public void PIDControl(double input) {
     //the higher the distance, the greater the vA coefficient. equation is y = 0.125(x-3)
-    double vCoef = vA + ((input-3)*0.35);
+    double vCoef = vA + ((input-2.5)*-0.43);
 
     //PID
     double velocity = vCoef*getShooterVelocity(getBallVelocity(input));

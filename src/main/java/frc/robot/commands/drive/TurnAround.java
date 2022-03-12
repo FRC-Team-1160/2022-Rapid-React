@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnAround extends CommandBase {
   private final DriveTrain m_drive;
-  private final double m_displacement;
   private final double m_speed;
 
   /**
@@ -20,8 +19,7 @@ public class TurnAround extends CommandBase {
    * @param speed The speed at which the robot will drive
    * @param drive The drive subsystem on which this command will run
    */
-  public TurnAround(double displacement, double speed, DriveTrain drive) {
-    m_displacement = displacement / 6.0;
+  public TurnAround(double speed, DriveTrain drive) {
     m_speed = speed;
     m_drive = drive;
     addRequirements(m_drive);
@@ -36,7 +34,7 @@ public class TurnAround extends CommandBase {
   @Override
   public void execute() {
     m_drive.voltageDriveTurn(m_speed);
-    SmartDashboard.putNumber("gyro", m_drive.getYaw());
+    // SmartDashboard.putNumber("gyro", m_drive.getYaw());
   }
 
   @Override
@@ -46,7 +44,8 @@ public class TurnAround extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("gyro4", m_drive.getYaw());
-    return Math.abs(m_drive.getLeftEncoderDistance()) >= m_displacement;
+    // SmartDashboard.putNumber("gyro4", m_drive.getYaw());
+    // return Math.abs(m_drive.getLeftEncoderDistance()) >= m_displacement;
+    return false;
   }
 }

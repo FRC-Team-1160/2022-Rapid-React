@@ -81,6 +81,45 @@ public class RobotContainer {
         )
       );
 
+      private final Command m_auto = 
+      new SequentialCommandGroup(
+          new DriveDistance(5, 0.04 * 12, m_driveTrain),
+          new DriveDistance(5, -0.03 * 12, m_driveTrain),
+          new ParallelCommandGroup(
+            new DriveDistance(60, 0.04 * 12, m_driveTrain),
+            this.getInitialIntake()
+          ),
+          this.getAutoIntake(),
+          new TurnAround(0.25 * 12, m_driveTrain).withTimeout(1.255),
+          new ParallelCommandGroup(
+            new TurnToAngle(m_turret).withTimeout(3.5),
+            new ShootDistance(m_shooter).withTimeout(4.5), ////////
+            new SequentialCommandGroup(
+              new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
+              new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.5),
+              new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+              new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
+              new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.7)
+            )
+          )
+        );
+
+        private final Command m_auto1 = 
+        new SequentialCommandGroup(
+            new DriveDistance(3, 0.03 * 12, m_driveTrain),
+            new DriveDistance(45, -0.05 * 12, m_driveTrain),
+            new ParallelCommandGroup(
+              new TurnToAngle(m_turret).withTimeout(2),
+              new ShootDistance(m_shooter).withTimeout(4.5), ////////
+              new SequentialCommandGroup(
+                new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
+                new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
+                new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.5)
+              )
+            )
+          );
+
       private final Command m_shootIndoor = 
       new ParallelCommandGroup(
         new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2),
@@ -113,7 +152,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.6 * m_mainStick.getRawAxis(1), 0.6 * m_mainStick.getRawAxis(4), 0.6 * m_mainStick.getRawAxis(2), 0.6 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.8 * m_mainStick.getRawAxis(1), 0.8 * m_mainStick.getRawAxis(4), 0.8 * m_mainStick.getRawAxis(2), 0.8 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -124,7 +163,7 @@ public class RobotContainer {
     public Command getShootIndoor() {
 
       return new ParallelCommandGroup(
-        new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2),
+        new ShooterControl(m_shooter, -0.6  * 12).withTimeout(3.2),
         new SequentialCommandGroup(
           new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
@@ -156,6 +195,16 @@ public class RobotContainer {
           new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
         ),
         new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(1.9)
+      );
+    }
+
+    public Command getAutoIntake() {
+
+      return new ParallelCommandGroup(
+        new SequentialCommandGroup(
+          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.6),
+          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
+        )
       );
     }
 
@@ -211,10 +260,17 @@ public class RobotContainer {
         );
 
       // Drive an arbitrary distance
+      /*
       new JoystickButton(m_mainStick, Button.kX.value)
           .whenPressed(
             new DriveDistance(48, 0.04 * 12, m_driveTrain)
           );
+      */
+
+      new JoystickButton(m_mainStick, Button.kX.value)
+        .whenPressed(
+          new TurnAround(0.25 * 12, m_driveTrain).withTimeout(1.27)
+        );
 
       // 2-ball auto (test)
       /*
@@ -238,16 +294,17 @@ public class RobotContainer {
         new JoystickButton(m_mainStick, Button.kY.value)
         .whenPressed(
           new SequentialCommandGroup(
-            new DriveDistance(20, 0.04 * 12, m_driveTrain),
+            new DriveDistance(5, 0.04 * 12, m_driveTrain),
+            new DriveDistance(5, -0.03 * 12, m_driveTrain),
             new ParallelCommandGroup(
-              new DriveDistance(50, 0.04 * 12, m_driveTrain),
+              new DriveDistance(60, 0.04 * 12, m_driveTrain),
               this.getInitialIntake()
             ),
-            this.getInitialIntake(),
-            new TurnAround(180, 0.15 * 12, m_driveTrain),
+            this.getAutoIntake(),
+            new TurnAround(0.25 * 12, m_driveTrain).withTimeout(1.27),
             new ParallelCommandGroup(
               new TurnToAngle(m_turret).withTimeout(2),
-              new ShooterControl(m_shooter, -0.3 * 12).withTimeout(5), ////////
+              new ShootDistance(m_shooter).withTimeout(4.5), ////////
               new SequentialCommandGroup(
                 new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
                 new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
@@ -285,6 +342,7 @@ public class RobotContainer {
               new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+              new TurretControl(m_turret, -0.02 * 12).withTimeout(0.05),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
             )
           )
@@ -306,13 +364,13 @@ public class RobotContainer {
       // Turn turret complex to the RIGHT
       new JoystickButton(m_firstStick, 5)
         .whenHeld(
-          new TurretControl(m_turret, 0.3 * 12)
+          new TurretControl(m_turret, 0.2 * 12)
         );
 
       // Turn turret complex to the LEFT
       new JoystickButton(m_firstStick, 4)
         .whenHeld(
-          new TurretControl(m_turret, -0.3 * 12)
+          new TurretControl(m_turret, -0.2 * 12)
         );
       
       // Climber FIRST DIRECTION
@@ -336,7 +394,7 @@ public class RobotContainer {
 
     
     public Command getAutonomousCommand() {
-      return m_shootDistance;
+      return m_auto;
     }
     
 }
