@@ -97,6 +97,8 @@ public class Shooter extends SubsystemBase {
     m_shootController.setFF(kFF);
     m_shootController.setOutputRange(kMinOutput, kMaxOutput);
 
+    m_leftShooter.setVoltage(0.1 * 12);
+
     /*
     SmartDashboard.putNumber("P Gain", kP);
     SmartDashboard.putNumber("I Gain", kI);
@@ -172,6 +174,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     SmartDashboard.putNumber("Shooter Velocity Right", m_rightEncoder.getVelocity()/3);
     SmartDashboard.putNumber("Shooter Velocity Left", m_leftEncoder.getVelocity()/3);
     SmartDashboard.putNumber("Shooter Distance", m_rightEncoder.getPosition());

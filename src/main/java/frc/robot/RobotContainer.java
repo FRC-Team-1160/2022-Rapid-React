@@ -92,16 +92,17 @@ public class RobotContainer {
           this.getAutoIntake(),
           new TurnAround(0.25 * 12, m_driveTrain).withTimeout(1.255),
           new ParallelCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(3.5),
             new ShootDistance(m_shooter).withTimeout(4.5), ////////
             new SequentialCommandGroup(
               new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
               new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
               new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.5),
+              new DriveDistance(5, -0.3 * 12, m_driveTrain),
               new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
               new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
               new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.7)
-            )
+            ),
+            new TurnToAngle(m_turret).withTimeout(3.5)
           )
         );
 
@@ -124,7 +125,7 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new ShooterControl(m_shooter, -0.3 * 12).withTimeout(3.2),
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
           new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
@@ -134,8 +135,7 @@ public class RobotContainer {
       private final Command m_initialIntake = 
       new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.5),
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(1.5)
         ),
         new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(2.0)
       );
@@ -165,7 +165,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(
         new ShooterControl(m_shooter, -0.6  * 12).withTimeout(3.2),
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
           new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
@@ -179,7 +179,7 @@ public class RobotContainer {
         new TurnToAngle(m_turret).withTimeout(2),
         new ShootDistance(m_shooter).withTimeout(3.4),
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
           new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3),
           new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
@@ -191,8 +191,7 @@ public class RobotContainer {
 
       return new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.6),
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(1.6)
         ),
         new MiddleIndexerControl(m_intake, -0.3 * 12).withTimeout(1.9)
       );
@@ -202,8 +201,7 @@ public class RobotContainer {
 
       return new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.2 * 12).withTimeout(1.6),
-          new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1)
+          new IntakeControl(m_intake, -0.7 * 12).withTimeout(1.6)
         )
       );
     }
@@ -235,7 +233,7 @@ public class RobotContainer {
       
       new JoystickButton(m_mainStick, Button.kLeftBumper.value)
       .whileHeld(
-        new IntakeControl(m_intake, -0.2 * 12)
+        new IntakeControl(m_intake, -0.5 * 12)
       );
 
       /*new JoystickButton(m_mainStick, Button.kY.value)
@@ -332,19 +330,36 @@ public class RobotContainer {
         );
       //
 
-      //auto fire
+      //1 ball auto fire
+      new JoystickButton(m_firstStick, 3)
+        .whenPressed(
+          new ParallelCommandGroup(
+            new TurnToAngle(m_turret).withTimeout(2.2),
+            new ShootDistance(m_shooter).withTimeout(1.8), ////////
+            new SequentialCommandGroup(
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.2),
+              new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.6)
+            )
+          )
+        );
+
+      //2 ball auto fire
       new JoystickButton(m_firstStick, 1)
         .whenPressed(
           new ParallelCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(2),
-            new ShootDistance(m_shooter).withTimeout(3.0),
+            new ShootDistance(m_shooter).withTimeout(2.2), ////////
             new SequentialCommandGroup(
-              new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.2),
-              new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
-              new TurretControl(m_turret, -0.02 * 12).withTimeout(0.05),
-              new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
-            )
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3), // rev up
+              new ParallelCommandGroup(
+                new FinalIndexerControl(m_intake, -0.9 * 12).withTimeout(0.9),
+                new SequentialCommandGroup(
+                  new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(0.3),
+                  new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1),
+                  new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2)
+                )
+              )
+            ),
+            new TurnToAngle(m_turret).withTimeout(2.2)
           )
         );
       
