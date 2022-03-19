@@ -152,7 +152,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.8 * m_mainStick.getRawAxis(1), 0.8 * m_mainStick.getRawAxis(4), 0.8 * m_mainStick.getRawAxis(2), 0.8 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -177,7 +177,7 @@ public class RobotContainer {
 
       return new ParallelCommandGroup(
         new TurnToAngle(m_turret).withTimeout(2),
-        new ShootDistance(m_shooter).withTimeout(3.4),
+        new ShootDistance(m_shooter).withTimeout(4.1),
         new SequentialCommandGroup(
           new IntakeControl(m_intake, -0.7 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.3),
@@ -289,7 +289,7 @@ public class RobotContainer {
         );
         */
 
-        new JoystickButton(m_mainStick, Button.kY.value)
+        /*new JoystickButton(m_mainStick, Button.kY.value)
         .whenPressed(
           new SequentialCommandGroup(
             new DriveDistance(5, 0.04 * 12, m_driveTrain),
@@ -313,7 +313,7 @@ public class RobotContainer {
               )
             )
           )
-        );
+        );*/
 
       //manual fire (no limelight)
       new JoystickButton(m_firstStick, 8)
@@ -335,9 +335,9 @@ public class RobotContainer {
         .whenPressed(
           new ParallelCommandGroup(
             new TurnToAngle(m_turret).withTimeout(2.2),
-            new ShootDistance(m_shooter).withTimeout(1.8), ////////
+            new ShootDistance(m_shooter).withTimeout(2.0), ////////
             new SequentialCommandGroup(
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.2),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.6)
             )
           )
@@ -347,7 +347,7 @@ public class RobotContainer {
       new JoystickButton(m_firstStick, 1)
         .whenPressed(
           new ParallelCommandGroup(
-            new ShootDistance(m_shooter).withTimeout(2.2), ////////
+            new ShootDistance(m_shooter).withTimeout(2.3), ////////
             new SequentialCommandGroup(
               new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3), // rev up
               new ParallelCommandGroup(

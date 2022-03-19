@@ -34,14 +34,14 @@ public class ShootDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.PIDControl(3.0);
-    //m_shooter.PIDControl(Vision.getDistance(Vision.getTy()));
+    //m_shooter.PIDControl(3.0);
+    m_shooter.PIDControl(Vision.getDistance(Vision.getTy()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.shooterControl(-0.1 * 12);
+    m_shooter.shooterControl(0);
   }
 
   // Returns true when the command should end.
