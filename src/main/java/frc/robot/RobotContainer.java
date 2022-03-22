@@ -36,6 +36,7 @@ import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.shoot.ShooterControl;
 import frc.robot.commands.shoot.ShootDistance;
 import frc.robot.commands.turret.TurnToAngle;
+import frc.robot.commands.turret.TurnToAngle2;
 import frc.robot.commands.drive.DriveDistance;
 import frc.robot.commands.drive.TurnAround;
 
@@ -165,7 +166,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(
         new ShooterControl(m_shooter, -0.6  * 12).withTimeout(3.2),
         new SequentialCommandGroup(
-          new IntakeControl(m_intake, -0.7 * 12).withTimeout(0.2),
+          new IntakeControl(m_intake, -0.5 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2),
           new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
           new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.7)
@@ -226,7 +227,7 @@ public class RobotContainer {
         );
       //
 
-      new JoystickButton(m_firstStick, 2)
+      new JoystickButton(m_mainStick, Button.kY.value)
         .whileHeld(
           new MiddleIndexerControl(m_intake, -0.3 * 12)
         );
@@ -254,7 +255,7 @@ public class RobotContainer {
       // Auto aim
       new JoystickButton(m_mainStick, Button.kA.value)
         .whenPressed(
-          new TurnToAngle(m_turret).withTimeout(3.0)
+          new TurnToAngle2(m_turret, 0.25 * 12).withTimeout(3.0)
         );
 
       // Drive an arbitrary distance
@@ -328,16 +329,21 @@ public class RobotContainer {
             )
           )
         );
-      //
+      //reverse final indexer
+      new JoystickButton(m_firstStick, 6) 
+        .whileHeld(
+          new FinalIndexerControl(m_intake, 0.2 * 12)
+        );
+      
 
       //1 ball auto fire
       new JoystickButton(m_firstStick, 3)
         .whenPressed(
           new ParallelCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(2.2),
-            new ShootDistance(m_shooter).withTimeout(2.0), ////////
+            new TurnToAngle(m_turret).withTimeout(1.9),
+            new ShootDistance(m_shooter).withTimeout(1.9), ////////
             new SequentialCommandGroup(
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.6)
             )
           )
@@ -347,13 +353,13 @@ public class RobotContainer {
       new JoystickButton(m_firstStick, 1)
         .whenPressed(
           new ParallelCommandGroup(
-            new ShootDistance(m_shooter).withTimeout(2.3), ////////
+            new ShootDistance(m_shooter).withTimeout(2.5), ////////
             new SequentialCommandGroup(
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.3), // rev up
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7), // rev up
               new ParallelCommandGroup(
-                new FinalIndexerControl(m_intake, -0.9 * 12).withTimeout(0.9),
+                new FinalIndexerControl(m_intake, -0.9 * 12).withTimeout(0.8),
                 new SequentialCommandGroup(
-                  new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(0.3),
+                  new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(0.4),
                   new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1),
                   new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2)
                 )
@@ -361,11 +367,6 @@ public class RobotContainer {
             ),
             new TurnToAngle(m_turret).withTimeout(2.2)
           )
-        );
-      
-      new JoystickButton(m_firstStick, 7)
-        .whileHeld(
-          new ShooterControl(m_shooter, -0.5 * 12)
         );
 
       // Reverse shooter
