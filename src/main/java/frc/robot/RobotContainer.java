@@ -82,7 +82,7 @@ public class RobotContainer {
         )
       );
 
-      private final Command m_auto = 
+      private final Command m_auto2 = 
       new SequentialCommandGroup(
           new DriveDistance(5, 0.04 * 12, m_driveTrain),
           new DriveDistance(5, -0.03 * 12, m_driveTrain),
@@ -153,7 +153,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.7 * m_mainStick.getRawAxis(1), 0.7 * m_mainStick.getRawAxis(4), 0.7 * m_mainStick.getRawAxis(2), 0.7 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -410,7 +410,7 @@ public class RobotContainer {
 
     
     public Command getAutonomousCommand() {
-      return m_auto;
+      return m_auto2;
     }
     
 }
