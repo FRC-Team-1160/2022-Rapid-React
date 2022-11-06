@@ -110,15 +110,22 @@ public class RobotContainer {
         private final Command m_auto1 = 
         new SequentialCommandGroup(
             new DriveDistance(3, 0.03 * 12, m_driveTrain),
-            new DriveDistance(45, -0.05 * 12, m_driveTrain),
+            new DriveDistance(53, -0.05 * 12, m_driveTrain),
             new ParallelCommandGroup(
-              new TurnToAngle(m_turret).withTimeout(2),
-              new ShootDistance(m_shooter).withTimeout(4.5), ////////
+              new MiddleIndexerControl(m_intake, 0.4 * 12).withTimeout(0.4),
+              new ShootDistance(m_shooter).withTimeout(2.7), ////////
               new SequentialCommandGroup(
-                new MiddleIndexerControl(m_intake, -0.5 * 12).withTimeout(0.3),
-                new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7),
-                new FinalIndexerControl(m_intake, -0.7 * 12).withTimeout(0.5)
-              )
+                new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6), // rev up
+                new ParallelCommandGroup(
+                  new FinalIndexerControl(m_intake, -0.9 * 12).withTimeout(0.8),
+                  new SequentialCommandGroup(
+                    new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(0.4),
+                    new IntakeControl(m_intake, -0.4 * 12).withTimeout(0.1),
+                    new MiddleIndexerControl(m_intake, -0.6 * 12).withTimeout(0.2)
+                  )
+                )
+              ),
+              new TurnToAngle(m_turret).withTimeout(2.2)
             )
           );
 
@@ -153,7 +160,7 @@ public class RobotContainer {
   
       // Configure default commands
       m_driveTrain.setDefaultCommand(new RunCommand(
-        () -> m_driveTrain.tankDrive(0.5 * m_mainStick.getRawAxis(1), 0.5 * m_mainStick.getRawAxis(4), 0.5 * m_mainStick.getRawAxis(2), 0.5 * m_mainStick.getRawAxis(3)),
+        () -> m_driveTrain.tankDrive(0.67 * m_mainStick.getRawAxis(1), 0.67 * m_mainStick.getRawAxis(4), 0.67 * m_mainStick.getRawAxis(2), 0.67 * m_mainStick.getRawAxis(3)),
         m_driveTrain)
       );
 
@@ -340,10 +347,10 @@ public class RobotContainer {
       new JoystickButton(m_firstStick, 3)
         .whenPressed(
           new ParallelCommandGroup(
-            new TurnToAngle(m_turret).withTimeout(1.9),
-            new ShootDistance(m_shooter).withTimeout(1.9), ////////
+            new TurnToAngle(m_turret).withTimeout(2.1),
+            new ShootDistance(m_shooter).withTimeout(2.1), ////////
             new SequentialCommandGroup(
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6),
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.5),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.6)
             )
           )
@@ -353,9 +360,10 @@ public class RobotContainer {
       new JoystickButton(m_firstStick, 1)
         .whenPressed(
           new ParallelCommandGroup(
-            new ShootDistance(m_shooter).withTimeout(2.5), ////////
+            new MiddleIndexerControl(m_intake, 0.4 * 12).withTimeout(0.4),
+            new ShootDistance(m_shooter).withTimeout(2.7), ////////
             new SequentialCommandGroup(
-              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.7), // rev up
+              new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6), // rev up
               new ParallelCommandGroup(
                 new FinalIndexerControl(m_intake, -0.9 * 12).withTimeout(0.8),
                 new SequentialCommandGroup(
@@ -410,7 +418,7 @@ public class RobotContainer {
 
     
     public Command getAutonomousCommand() {
-      return m_auto;
+      return m_auto1;
     }
     
 }
