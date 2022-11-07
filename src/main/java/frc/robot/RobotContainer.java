@@ -110,10 +110,10 @@ public class RobotContainer {
         private final Command m_auto1 = 
         new SequentialCommandGroup(
             new DriveDistance(3, 0.03 * 12, m_driveTrain),
-            new DriveDistance(53, -0.05 * 12, m_driveTrain),
+            new DriveDistance(58, -0.05 * 12, m_driveTrain),
             new ParallelCommandGroup(
               new MiddleIndexerControl(m_intake, 0.4 * 12).withTimeout(0.4),
-              new ShootDistance(m_shooter).withTimeout(2.7), ////////
+              new ShootDistance(m_shooter).withTimeout(3.1), ////////
               new SequentialCommandGroup(
                 new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6), // rev up
                 new ParallelCommandGroup(
@@ -348,7 +348,7 @@ public class RobotContainer {
         .whenPressed(
           new ParallelCommandGroup(
             new TurnToAngle(m_turret).withTimeout(2.1),
-            new ShootDistance(m_shooter).withTimeout(2.1), ////////
+            new ShootDistance(m_shooter).withTimeout(2.4), ////////
             new SequentialCommandGroup(
               new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.5),
               new FinalIndexerControl(m_intake, -0.65 * 12).withTimeout(0.6)
@@ -361,7 +361,7 @@ public class RobotContainer {
         .whenPressed(
           new ParallelCommandGroup(
             new MiddleIndexerControl(m_intake, 0.4 * 12).withTimeout(0.4),
-            new ShootDistance(m_shooter).withTimeout(2.7), ////////
+            new ShootDistance(m_shooter).withTimeout(3.2), ////////
             new SequentialCommandGroup(
               new MiddleIndexerControl(m_intake, 0 * 12).withTimeout(1.6), // rev up
               new ParallelCommandGroup(
@@ -400,13 +400,13 @@ public class RobotContainer {
       // Climber FIRST DIRECTION
       new JoystickButton(m_firstStick, 11)
         .whenHeld(
-          new ClimbControl(m_climber, -0.4 * 12)
+          new ClimbControl(m_climber, -0.55 * 12)
         );
       
       // Climber SECOND DIRECTION
       new JoystickButton(m_firstStick, 10)
         .whenHeld(
-          new ClimbControl(m_climber, 0.4 * 12)
+          new ClimbControl(m_climber, 0.55 * 12)
         );
     }
 
